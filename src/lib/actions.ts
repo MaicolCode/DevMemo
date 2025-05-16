@@ -1,5 +1,5 @@
 export async function getNotes() {
-    const res = await fetch("/api/notes",{
+    const res = await fetch("http://localhost:3000/api/notes",{
         method: "GET",
         headers: {
             "Content-Type": "application/json"
