@@ -4,11 +4,10 @@ import { Note } from "@/types";
 
 export default async function DashboardDev() {
     const { userId } = await auth();
-
     if (!userId) (await auth()).redirectToSignIn(); 
     
-    const {notes, error} = await getNotes();
-
+    const {data: notes, error} = await getNotes();
+    
     return (
         <div className="container mx-auto px-4 py-8 font-quicksand">
             <h1 className="text-3xl font-bold mb-6">Tus Notas de Código</h1>
@@ -33,7 +32,6 @@ export default async function DashboardDev() {
                     >
                         <h2 className="text-xl font-semibold mb-2 text-gray-800">{nota.title}</h2>                    
                         <div className="flex justify-between items-center text-sm text-gray-500">
-                            <span>{new Date(nota.created_at).toLocaleDateString()}</span>
                             <span>{new Date(nota.created_at).toLocaleDateString()}</span>
                             <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
                                 {nota.language || 'Sin lenguaje'} - {nota.tags?.join(", ")}
