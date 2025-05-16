@@ -1,5 +1,5 @@
 import {NextResponse} from "next/server";
-import {supabase} from "@/libs/supabase";
+import {supabase} from "@/lib/supabase";
 import {auth} from "@clerk/nextjs/server";
 
 
