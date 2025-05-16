@@ -12,7 +12,10 @@ export async function getNotes() {
         }
     });
 
-    if (!res.ok) throw new Error((await res.json()).error);
+    if (!res.ok) {
+        const errorData = await res.json();
+        throw new Error(errorData.error);
+    }
 
-    return res.json();
+    return await res.json(); // Aseguramos que se resuelva la promesa de res.json()
 }
