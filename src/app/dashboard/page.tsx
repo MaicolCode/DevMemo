@@ -9,7 +9,7 @@ export default async function DashboardDev() {
     const {data: notes, error} = await getNotes();
     
     return (
-        <div className="container mx-auto px-4 py-8 font-quicksand">
+        <div className="container mx-auto px-4 py-8 font-questrial">
             <h1 className="text-3xl font-bold mb-6">Tus Notas de Código</h1>
             
             { error && (
