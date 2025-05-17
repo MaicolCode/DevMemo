@@ -5,28 +5,15 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
+import useFindNote from '@/hooks/useFindNote';
 
-type FormData = {
-    title: string;
-    code: string;
-    explanation: string;
-    solution: string;
-    language: string;
-    tags: string;
-};
+
 
 export default function CreateNotePage() {
     const router = useRouter();
-    const { isLoaded, userId, getToken } = useAuth();
+    const { isLoaded, userId } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const [formData, setFormData] = useState<FormData>({
-        title: '',
-        code: '',
-        explanation: '',
-        solution: '',
-        language: 'javascript',
-        tags: ''
-    });
+    const {formNote, setFormNote, postNote} = useFindNote();
 
     // Redirigir si el usuario no está autenticado
     useEffect(() => {
@@ -37,32 +24,19 @@ export default function CreateNotePage() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormData(prev => ({
+        setFormNote(prev => ({
             ...prev,
             [name]: value
         }));
     };
+    console.log(formNote)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
         setIsSubmitting(true);
 
         try {
-            const response = await fetch('http://localhost:3000/api/notes', {
-                method: 'POST',
-                headers: {
-                    'Content-Type': 'application/json',
-                    'Authorization': `Bearer ${await getToken()}`
-                },
-                body: JSON.stringify({
-                    ...formData,
-                    tags: formData.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
-                }),
-            });
-
-            if (!response.ok) {
-                throw new Error('Error al guardar la nota');
-            }
+            await postNote();
 
             toast.success('Nota creada exitosamente');
             router.push('/dashboard');
@@ -88,7 +62,7 @@ export default function CreateNotePage() {
                         type="text"
                         id="title"
                         name="title"
-                        value={formData.title}
+                        value={formNote.title}
                         onChange={handleChange}
                         required
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
@@ -104,7 +78,7 @@ export default function CreateNotePage() {
                     <select
                         id="language"
                         name="language"
-                        value={formData.language}
+                        value={formNote.language}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
                     >
@@ -124,7 +98,7 @@ export default function CreateNotePage() {
                     <textarea
                         id="code"
                         name="code"
-                        value={formData.code}
+                        value={formNote.code}
                         onChange={handleChange}
                         required
                         rows={10}
@@ -141,7 +115,7 @@ export default function CreateNotePage() {
                     <textarea
                         id="explanation"
                         name="explanation"
-                        value={formData.explanation}
+                        value={formNote.explanation}
                         onChange={handleChange}
                         required
                         rows={4}
@@ -158,7 +132,7 @@ export default function CreateNotePage() {
                     <textarea
                         id="solution"
                         name="solution"
-                        value={formData.solution}
+                        value={formNote.solution}
                         onChange={handleChange}
                         rows={4}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
@@ -175,7 +149,7 @@ export default function CreateNotePage() {
                         type="text"
                         id="tags"
                         name="tags"
-                        value={formData.tags}
+                        value={formNote.tags}
                         onChange={handleChange}
                         className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
                         placeholder="javascript, react, hooks, ..."
