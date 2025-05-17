@@ -20,3 +20,12 @@ export interface User {
     name: string;
     createdAt: string;
 }
+
+export type FormData = {
+    title: string;
+    code: string;
+    explanation: string;
+    solution: string;
+    language: string;
+    tags: string;
+};
