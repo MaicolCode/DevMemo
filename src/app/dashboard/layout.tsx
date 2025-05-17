@@ -53,7 +53,7 @@ export default async function RootLayout({
                             </div>
                         )}
                     </div>
-                    <div className=" rounded-lg shadow-sm border border-gray-100 p-6 h-[calc(100vh-12rem)] w-full">
+                    <div className=" rounded-lg shadow-sm border border-gray-100 p-6 h-[calc(100vh-12rem)] w-full overflow-auto">
                         {children}
                     </div>
                 </section>
