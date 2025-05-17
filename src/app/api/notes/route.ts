@@ -38,14 +38,25 @@ export async function POST(req: Request){
 
     if (!userId) return NextResponse.json({error: "Unauthorized"}, {status: 401});
 
-    const {body} = await req.json();
+    const {title, code, explanation, solution, language, tags} = await req.json();
 
-    const {data, error} = await supabase.from("code_notes").insert({
-        ...body,
+    console.log(req.json())
+    const data = {
+        title,
+        code,
+        explanation,
+        solution,
+        language,
+        tags,
         user_id: userId
+    }
+ 
+
+    const {data:note, error} = await supabase.from("code_notes").insert({
+        ...data
     });
 
     if (error) return NextResponse.json({error: error.message}, {status: 500});
 
-    return NextResponse.json(data);
+    return NextResponse.json(note);
 }
