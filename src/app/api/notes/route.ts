@@ -17,7 +17,6 @@ export async function GET() {
         .select('*')
         .eq('user_id', userId);
 
-
     if (error) {
         return NextResponse.json({error: error.message}, {status: 500});
     }
