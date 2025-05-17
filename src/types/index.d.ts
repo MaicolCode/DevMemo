@@ -1,7 +1,9 @@
 export interface Note {
     id: string;
     title: string;
-    content: string;
+    code: string;
+    explanation: string;
+    solution: string;
     language: string;
     tags: string[];
     created_at: string;
