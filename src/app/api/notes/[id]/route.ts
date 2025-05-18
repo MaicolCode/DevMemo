@@ -9,14 +9,6 @@ export async function GET(
 ) {
   try {
     const {id: idNote} = await params;
-    // Obtener el token del header
-    const authHeader = request.headers.get('authorization');
-    if (!authHeader) {
-      return NextResponse.json(
-        { error: "No autorizado" },
-        { status: 401 }
-      );
-    }
 
 
     // Validar el token usando Clerk
@@ -44,4 +36,24 @@ export async function GET(
       { status: 500 }
     );
   }
+}
+
+export async function DELETE(req: Request,
+  { params }: { params: { id: string} }) {
+  const {id} = await params;
+  console.log(id)
+  const {user} = await req.json();
+
+  /* const { userId } = await auth();
+
+  console.log(userId) */
+
+  const {data: note, error} = await supabase.from('code_notes').delete().eq('id', id).eq('user_id', user);
+    console.log(note);
+
+    if (error) {
+        return NextResponse.json({error: error.message}, {status: 500});
+    }
+
+    return NextResponse.json(note);
 }
