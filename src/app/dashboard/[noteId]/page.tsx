@@ -3,12 +3,17 @@
 import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
-import { useNote } from "@/hooks/useNote";
+import { useGetNote } from "@/hooks/useNote";
 import { CodeBlock } from "@/components/CodeBlock";
+import { deleteNote } from "@/lib/actions_test";
+import { useUser } from "@clerk/nextjs";
+
+
 
 export default function NoteDetail() {
   const params = useParams<{ noteId: string }>();
-  const { note, loading, error } = useNote(params.noteId);
+  const { note, loading, error } = useGetNote(params.noteId);
+  const {user} = useUser();
 
   if (loading) {
     return (
@@ -48,6 +53,8 @@ export default function NoteDetail() {
         <h2 className="text-2xl font-semibold">{note.title}</h2>
       </div>
 
+      <Link href="/dashboard" onClick={() => deleteNote(note.id, user?.id as string)}>Elminar</Link>
+
       <div className="space-y-4">
         <div className="flex justify-between items-center text-sm text-gray-500">
           <span>{new Date(note.created_at).toLocaleDateString()}</span>
@@ -76,8 +83,11 @@ export default function NoteDetail() {
         <div>
           <h2 className="text-xl font-semibold my-4">Explicación:</h2>
           <p>{note.explanation}</p>
+        {note.solution && <div>
+          <h2 className="text-xl font-semibold my-4">Solución:</h2>
+          <p>{note.solution}</p>
+          </div>}
         </div>
-        {note.solution && <p>{note.solution}</p>}
       </div>
     </div>
   );

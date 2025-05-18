@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
-import useFindNote from '@/hooks/useFindNote';
+import useCreateNote from '@/hooks/useCreateNote';
 
 
 
@@ -13,7 +13,7 @@ export default function CreateNotePage() {
     const router = useRouter();
     const { isLoaded, userId } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const {formNote, setFormNote, postNote} = useFindNote();
+    const {formNote, setFormNote, postNote} = useCreateNote();
 
     // Redirigir si el usuario no está autenticado
     useEffect(() => {

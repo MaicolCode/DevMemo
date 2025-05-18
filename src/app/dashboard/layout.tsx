@@ -1,18 +1,14 @@
-import { auth } from "@clerk/nextjs/server";
-import { getNotes } from "@/lib/actions";
+"use client"
 import { Note } from "@/types";
-import  Link  from "next/link";
+import Link from "next/link";
+import { useNote } from "@/hooks/useNote";
 
-
-export default async function RootLayout({
+export default function DashboardLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const { userId } = await auth();
-    if (!userId) (await auth()).redirectToSignIn();
-
-    const { data: notes, error } = await getNotes();
+    const {notes, error} = useNote();
 
     return (
         <div className="min-h-screen box-border font-questrial">
