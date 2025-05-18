@@ -1,6 +1,7 @@
 export interface Note {
     id: string;
     title: string;
+    user_id: string;
     code: string;
     explanation: string;
     solution: string;
