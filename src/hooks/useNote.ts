@@ -1,6 +1,7 @@
 import { useEffect, useState } from 'react';
-import { useAuth } from '@clerk/nextjs';
+import { useUser } from '@clerk/nextjs';
 import { Note } from '@/types';
+import { getNotes } from '@/lib/actions';
 
 export interface UseNoteResult {
   note: Note | null;
@@ -8,26 +9,48 @@ export interface UseNoteResult {
   error: string | null;
 }
 
-export function useNote(noteId: string): UseNoteResult {
+export function useNote() {
+  const {user} = useUser();
+  const id = user?.id;
+  const [notes, setNotes] = useState<Note[] | null>(null);
+  const [error, setError] = useState<{message: string} | null>(null);
+
+  useEffect(() => {
+    const fethNote = async () => {
+      try {
+        const {data, error} = await getNotes();
+        const notes = data.filter(note => note.user_id === id);
+
+        
+        setNotes(notes);
+        setError(error);
+      } catch (err) {
+        setError(err instanceof Error ? {message: err.message} : {message: 'Error al cargar la nota'});
+      }
+    }
+
+    fethNote();
+  }, [id]);
+
+  return {notes, error};
+}
+
+export function useGetNote(noteId: string): UseNoteResult {
   const [note, setNote] = useState<Note | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
-  const { getToken } = useAuth();
+  const {user} = useUser();
+  const id = user?.id;
 
   useEffect(() => {
-    const fetchNote = async () => {
+    const fetchGetNote = async () => {
       try {
         setLoading(true);
-        const token = await getToken();
-        if (!token) {
+        if (!id) {
           throw new Error('No autorizado');
         }
 
-        const response = await fetch(`http://localhost:3000/api/notes/${noteId}`, {
-          headers: {
-            'Authorization': `Bearer ${token}`
-          }
-        });
+        const response = await fetch(`http://localhost:3000/api/notes/${noteId}`);
 
         if (!response.ok) {
           const errorData = await response.json();
@@ -44,8 +67,8 @@ export function useNote(noteId: string): UseNoteResult {
       }
     };
 
-    fetchNote();
-  }, [noteId, getToken]);
+    fetchGetNote();
+  }, [id, noteId]);
 
   return { note, loading, error };
 }
