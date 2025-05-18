@@ -5,7 +5,7 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
-import useCreateNote from '@/hooks/useCreateNote';
+import useCreateNote from '@/hooks/useNote';
 
 
 
