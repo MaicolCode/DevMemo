@@ -1,6 +1,5 @@
 import {NextResponse} from "next/server";
 import {supabase} from "@/lib/supabase";
-import {auth} from "@clerk/nextjs/server";
 
 
 // Petición get para la obtencion de la base de datos desde supabase
@@ -26,13 +25,10 @@ export async function GET() {
 }
 // Petición post para la creación de una nueva nota en la base de datos desde supabase
 export async function POST(req: Request){
-    const {userId} = await auth();
 
-    if (!userId) return NextResponse.json({error: "Unauthorized"}, {status: 401});
+    const {title, code, explanation, solution, language, tags, user_id} = await req.json();
 
-    const {title, code, explanation, solution, language, tags} = await req.json();
-
-    console.log(req.json())
+    
     const data = {
         title,
         code,
@@ -40,7 +36,7 @@ export async function POST(req: Request){
         solution,
         language,
         tags,
-        user_id: userId
+        user_id
     }
  
 
@@ -48,7 +44,9 @@ export async function POST(req: Request){
         ...data
     });
 
-    if (error) return NextResponse.json({error: error.message}, {status: 500});
+    console.log(error)
+
+    if (error) return error;
 
     return NextResponse.json(note);
 }

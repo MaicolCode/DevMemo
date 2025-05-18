@@ -22,7 +22,6 @@ export async function GET(
 
     // Simulamos una nota
     const {data: note, error} = await supabase.from('code_notes').select('*').eq('id', idNote).eq('user_id', userId).single();
-    console.log(note);
 
     if (error) {
         return NextResponse.json({error: error.message}, {status: 500});
@@ -41,7 +40,6 @@ export async function GET(
 export async function DELETE(req: Request,
   { params }: { params: { id: string} }) {
   const {id} = await params;
-  console.log(id)
   const {user} = await req.json();
 
   /* const { userId } = await auth();
@@ -56,4 +54,18 @@ export async function DELETE(req: Request,
     }
 
     return NextResponse.json(note);
+}
+
+
+export async function PUT(req: Request, {params}: {params: {id: string}}) {
+  const {id} = await params;
+  const {note , user} = await req.json();
+
+  const {data, error} = await supabase.from('code_notes').update(note).eq('id', id).eq('user_id', user);
+  console.log(error)
+  if(error) {
+    return error;
+  }
+
+  return NextResponse.json({data, error}, {status: 200});
 }
