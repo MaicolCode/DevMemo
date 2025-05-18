@@ -5,7 +5,7 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useGetNote } from "@/hooks/useNote";
 import { CodeBlock } from "@/components/CodeBlock";
-import { deleteNote } from "@/lib/actions_test";
+import { deleteNote } from "@/lib/actions";
 import { useUser } from "@clerk/nextjs";
 
 
@@ -54,6 +54,7 @@ export default function NoteDetail() {
       </div>
 
       <Link href="/dashboard" onClick={() => deleteNote(note.id, user?.id as string)}>Elminar</Link>
+      <Link href={`/dashboard/${note.id}/edit`}>Editar</Link>
 
       <div className="space-y-4">
         <div className="flex justify-between items-center text-sm text-gray-500">
