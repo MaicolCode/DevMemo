@@ -11,9 +11,9 @@ export interface UseNoteResult {
 }
 
 export function useNote() {
-  const {notes, error, deleteNotes, formNote, setFormNote, createNote } = useContext(notesContext);
+  const {notes, error, deleteNotes, formNote, setFormNote, createNote, loading } = useContext(notesContext);
 
-  return { notes, error, deleteNotes, formNote, setFormNote, createNote };
+  return { notes, error, deleteNotes, formNote, setFormNote, createNote, loading };
 }
 
 export function useGetNote(noteId: string): UseNoteResult {
