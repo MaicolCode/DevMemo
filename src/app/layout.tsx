@@ -20,7 +20,7 @@ export const metadata: Metadata = {
   description: "Tu notas de código",
 };
 
-export const fontQuestrial = Questrial({
+const fontQuestrial = Questrial({
   weight: "400",
   subsets: ["latin"],
 });
