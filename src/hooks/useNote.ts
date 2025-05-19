@@ -1,8 +1,8 @@
-import { useEffect, useState } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { useUser } from '@clerk/nextjs';
 import { FormData, Note } from '@/types';
-import { getNotes, updateNote } from '@/lib/actions';
-import { useRouter } from 'next/navigation';
+import { updateNote } from '@/lib/actions';
+import { notesContext } from '@/context/notes';
 
 export interface UseNoteResult {
   note: Note | null;
@@ -11,69 +11,9 @@ export interface UseNoteResult {
 }
 
 export function useNote() {
-  const { user } = useUser();
-  const id = user?.id;
-  const [notes, setNotes] = useState<Note[] | null>(null);
-  const [error, setError] = useState<{ message: string } | null>(null);
+  const {notes, error, deleteNotes, formNote, setFormNote, createNote } = useContext(notesContext);
 
-  useEffect(() => {
-    const fethNote = async () => {
-      try {
-        const { data, error } = await getNotes();
-        const notes = data.filter((note: Note) => note.user_id === id);
-
-
-        setNotes(notes);
-        setError(error);
-      } catch (err) {
-        setError(err instanceof Error ? { message: err.message } : { message: 'Error al cargar la nota' });
-      }
-    }
-
-    fethNote();
-  }, [id]);
-
-  return { notes, error };
-}
-
-export default function useCreateNote() {
-  const [formNote, setFormNote] = useState<FormData>({
-    title: '',
-    code: '',
-    explanation: '',
-    solution: '',
-    language: 'javascript',
-    tags: ''
-  });
-  const { user } = useUser();
-  const router = useRouter();
-
-
-  const postNote = async () => {
-    try {
-      const response = await fetch("http://localhost:3000/api/notes", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json"
-        },
-        body: JSON.stringify({
-          ...formNote,
-          tags: formNote.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0),
-          user_id: user?.id
-        })
-      })
-
-      if (!response.ok) {
-        throw new Error("Error to save note")
-      }
-    } catch (error) {
-      console.log(error)
-    }
-    router.refresh();
-  }
-
-  return { formNote, setFormNote, postNote }
-
+  return { notes, error, deleteNotes, formNote, setFormNote, createNote };
 }
 
 export function useGetNote(noteId: string): UseNoteResult {
