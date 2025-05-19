@@ -5,15 +5,16 @@ import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useGetNote } from "@/hooks/useNote";
 import { CodeBlock } from "@/components/CodeBlock";
-import { deleteNote } from "@/lib/actions";
-import { useUser } from "@clerk/nextjs";
+import { useNote } from "@/hooks/useNote";
+import { useRouter } from "next/navigation";
 
 
 
 export default function NoteDetail() {
+  const router = useRouter();
   const params = useParams<{ noteId: string }>();
   const { note, loading, error } = useGetNote(params.noteId);
-  const {user} = useUser();
+  const {deleteNotes} = useNote();
 
   if (loading) {
     return (
@@ -43,52 +44,81 @@ export default function NoteDetail() {
 
   return (
     <div className="space-y-6">
-      <div className="flex items-center space-x-3">
-        <Link
-          href="/dashboard"
-          className="text-gray-500 hover:text-gray-700"
-        >
-          <ArrowLeft size={24} />
-        </Link>
-        <h2 className="text-2xl font-semibold">{note.title}</h2>
+      <div className="flex justify-between items-center mb-6">
+        <div className="flex items-center space-x-4">
+          <Link
+            href="/dashboard"
+            className="text-gray-400 hover:text-white transition-colors duration-200 p-1 rounded-full hover:bg-[#2a2a2a]"
+          >
+            <ArrowLeft size={20} />
+          </Link>
+          <h2 className="text-2xl font-medium text-gray-100">{note.title}</h2>
+        </div>
+        <div className="flex space-x-3">
+          <Link 
+            href={`/dashboard/${note.id}/edit`}
+            className="text-sm px-4 py-2 bg-[#2d2d2d] hover:bg-[#3a3a3a] border border-[#3a3a3a] rounded-lg transition-colors duration-200"
+          >
+            Editar
+          </Link>
+          <button 
+            onClick={async (e) => {
+              e.preventDefault();
+              await deleteNotes(note.id)
+              router.push('/dashboard');
+            }}
+            className="text-sm px-4 py-2 bg-red-900/30 hover:bg-red-900/50 text-red-400 border border-red-900/50 rounded-lg transition-colors duration-200"
+          >
+            Eliminar
+          </button>
+        </div>
       </div>
 
-      <Link href="/dashboard" onClick={() => deleteNote(note.id, user?.id as string)}>Elminar</Link>
-      <Link href={`/dashboard/${note.id}/edit`}>Editar</Link>
-
-      <div className="space-y-4">
-        <div className="flex justify-between items-center text-sm text-gray-500">
-          <span>{new Date(note.created_at).toLocaleDateString()}</span>
-          <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
+      <div className="space-y-6">
+        <div className="flex justify-between items-center text-sm">
+          <span className="text-gray-400">
+            Creada el {new Date(note.created_at).toLocaleDateString('es-ES', {
+              year: 'numeric',
+              month: 'long',
+              day: 'numeric',
+            })}
+          </span>
+          <span className="bg-[#2d2d2d] text-gray-300 px-3 py-1 rounded-full text-xs font-medium">
             {note.language || 'Sin lenguaje'}
           </span>
         </div>
 
-        <CodeBlock 
+        <div className="bg-[#1e1e1e] rounded-lg overflow-hidden border border-[#2a2a2a]">
+          <CodeBlock 
             code={note.code} 
             language={note.language?.toLowerCase() || 'plaintext'}
           />
+        </div>
 
         {note.tags && note.tags.length > 0 && (
           <div className="flex flex-wrap gap-2">
             {note.tags.map((tag, index) => (
               <span
                 key={index}
-                className="bg-gray-100 text-gray-600 text-xs px-2 py-1 rounded"
+                className="bg-[#2d2d2d] text-gray-300 text-xs px-3 py-1 rounded-full"
               >
                 {tag}
               </span>
             ))}
           </div>
         )}
-        <div>
-          <h2 className="text-xl font-semibold my-4">Explicación:</h2>
-          <p>{note.explanation}</p>
-        {note.solution && <div>
-          <h2 className="text-xl font-semibold my-4">Solución:</h2>
-          <p>{note.solution}</p>
-          </div>}
+
+        <div className="bg-[#1e1e1e] rounded-lg p-6 border border-[#2a2a2a]">
+          <h2 className="text-lg font-medium text-gray-100 mb-4">Explicación</h2>
+          <p className="text-gray-300 whitespace-pre-line">{note.explanation}</p>
         </div>
+
+        {note.solution && (
+          <div className="bg-[#1e1e1e] rounded-lg p-6 border border-[#2a2a2a]">
+            <h2 className="text-lg font-medium text-gray-100 mb-4">Solución</h2>
+            <p className="text-gray-300 whitespace-pre-line">{note.solution}</p>
+          </div>
+        )}
       </div>
     </div>
   );

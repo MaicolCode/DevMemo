@@ -6,19 +6,21 @@ import { useAuth } from '@clerk/nextjs';
 import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
 import { useGetNote, useUpdateNote } from '@/hooks/useNote';
+import FormInput from '@/components/FormInput';
+import FormTextArea from '@/components/FormTextArea';
 
 export default function EditNotePage() {
     const router = useRouter();
     const params = useParams<{ noteId: string }>();
     const noteId = params.noteId;
-    
+
     const { isLoaded, userId } = useAuth();
     const { note, loading: isLoadingNote, error: noteError } = useGetNote(noteId);
-    const { 
-        updatedNote, 
-        loading: isUpdating, 
-        error: updateError, 
-        setNewNote 
+    const {
+        updatedNote,
+        loading: isUpdating,
+        error: updateError,
+        setNewNote
     } = useUpdateNote(noteId);
 
     // Redirigir si el usuario no está autenticado
@@ -52,7 +54,7 @@ export default function EditNotePage() {
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
-        
+
         try {
             await updatedNote();
             toast.success('Nota actualizada exitosamente');
@@ -84,33 +86,39 @@ export default function EditNotePage() {
     }
 
     return (
-        <div className="container mx-auto p-4">
-            <h1 className="text-2xl font-bold mb-6">Editar Nota</h1>
-            
+        <div className="space-y-6">
+            <div className="flex justify-between items-center">
+                <h1 className="text-2xl font-medium text-gray-100">Editar Nota</h1>
+                <button
+                    onClick={() => router.back()}
+                    className="text-sm text-gray-400 hover:text-white transition-colors duration-200"
+                >
+                    ← Volver
+                </button>
+            </div>
+
             {updateError && (
-                <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative mb-4" role="alert">
-                    <span className="block sm:inline">{updateError}</span>
+                <div className="bg-red-900/30 border border-red-900/50 text-red-300 px-4 py-3 rounded-lg mb-4 text-sm" role="alert">
+                    {updateError}
                 </div>
             )}
 
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 text-sm">
                 <div>
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700">
-                        Título
-                    </label>
-                    <input
+                    <FormInput
                         type="text"
                         id="title"
                         name="title"
+                        label="Título"
                         onChange={handleChange}
                         defaultValue={note?.title || ''}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
                         required
+                        placeholder="Título de la nota"
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="language" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="language" className="block text-sm font-medium text-gray-300 mb-1">
                         Lenguaje de Programación
                     </label>
                     <select
@@ -118,11 +126,11 @@ export default function EditNotePage() {
                         name="language"
                         onChange={handleChange}
                         defaultValue={note?.language || 'javascript'}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                        className="w-full px-4 py-2 border border-[#3a3a3a] rounded-md bg-[#1e1e1e] text-gray-200 focus:outline-none focus:ring-1 focus:ring-white transition-all duration-200 ease-in"
                         required
                     >
                         {languages.map((lang) => (
-                            <option key={lang.value} value={lang.value}>
+                            <option key={lang.value} value={lang.value} className="bg-[#1e1e1e] text-gray-200">
                                 {lang.label}
                             </option>
                         ))}
@@ -130,75 +138,75 @@ export default function EditNotePage() {
                 </div>
 
                 <div>
-                    <label htmlFor="code" className="block text-sm font-medium text-gray-700">
-                        Código
-                    </label>
-                    <textarea
+                    <FormTextArea
                         id="code"
                         name="code"
-                        rows={10}
+                        label="Código"
+                        value={note?.code || ''}
                         onChange={handleChange}
-                        defaultValue={note?.code || ''}
-                        className="mt-1 block w-full font-mono text-sm rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
                         required
+                        rows={10}
+                        className="font-mono text-sm"
+                        placeholder="Pega tu código aquí..."
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="explanation" className="block text-sm font-medium text-gray-700">
-                        Explicación
-                    </label>
-                    <textarea
+                    <FormTextArea
                         id="explanation"
                         name="explanation"
-                        rows={5}
+                        label="Explicación"
+                        value={note?.explanation || ''}
                         onChange={handleChange}
-                        defaultValue={note?.explanation || ''}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                        required
+                        rows={5}
+                        placeholder="Explica el problema o concepto que aborda este código..."
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="solution" className="block text-sm font-medium text-gray-700">
-                        Solución
-                    </label>
-                    <textarea
+                    <FormTextArea
                         id="solution"
                         name="solution"
-                        rows={5}
+                        label="Solución (Opcional)"
+                        value={note?.solution || ''}
                         onChange={handleChange}
-                        defaultValue={note?.solution || ''}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                        rows={5}
+                        placeholder="Explica cómo resolver el problema o implementar la solución..."
                     />
                 </div>
 
                 <div>
-                    <label htmlFor="tags" className="block text-sm font-medium text-gray-700">
+                    <label htmlFor="tags" className="block text-sm font-medium text-gray-300 mb-1">
                         Etiquetas (separadas por comas)
                     </label>
-                    <input
+                    <FormInput
                         type="text"
                         id="tags"
                         name="tags"
+                        label="Etiquetas"
                         onChange={handleChange}
                         defaultValue={note?.tags?.join(', ') || ''}
-                        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-500 focus:ring-blue-500 p-2 border"
+                        required
                         placeholder="ejemplo: react, hooks, typescript"
                     />
+                    <p className="mt-1 text-xs text-gray-500">
+                        Separa las etiquetas con comas
+                    </p>
                 </div>
 
-                <div className="flex justify-end space-x-4">
+                <div className="flex justify-end space-x-3 pt-4 border-t border-[#2a2a2a]">
                     <button
                         type="button"
                         onClick={() => router.back()}
-                        className="px-4 py-2 border border-gray-300 rounded-md shadow-sm text-sm font-medium text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+                        className="px-4 py-2 border border-[#3a3a3a] rounded-md text-sm font-medium text-gray-300 bg-transparent hover:bg-[#2a2a2a] transition-colors duration-200"
                     >
                         Cancelar
                     </button>
                     <button
                         type="submit"
                         disabled={isUpdating}
-                        className="px-4 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-4 py-2 rounded-md text-sm font-medium text-white bg-[#2d2d2d] hover:bg-[#3a3a3a] border border-[#3a3a3a] transition-colors duration-200 disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isUpdating ? 'Guardando...' : 'Guardar Cambios'}
                     </button>

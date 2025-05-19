@@ -3,9 +3,12 @@
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
+import { FormData } from '@/types';
 import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
-import useCreateNote from '@/hooks/useNote';
+import {useNote} from '@/hooks/useNote';
+import FormInput from '@/components/FormInput';
+import FormTextArea from '@/components/FormTextArea';
 
 
 
@@ -13,7 +16,7 @@ export default function CreateNotePage() {
     const router = useRouter();
     const { isLoaded, userId } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const {formNote, setFormNote, postNote} = useCreateNote();
+    const {formNote, setFormNote, createNote} = useNote();
 
     // Redirigir si el usuario no está autenticado
     useEffect(() => {
@@ -24,10 +27,11 @@ export default function CreateNotePage() {
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setFormNote(prev => ({
-            ...prev,
+        const newFormData: FormData = {
+            ...formNote,
             [name]: value
-        }));
+        };
+        setFormNote(newFormData);
     };
     console.log(formNote)
 
@@ -36,7 +40,7 @@ export default function CreateNotePage() {
         setIsSubmitting(true);
 
         try {
-            await postNote();
+            await createNote();
 
             toast.success('Nota creada exitosamente');
             router.push('/dashboard');
@@ -49,23 +53,20 @@ export default function CreateNotePage() {
     };
 
     return (
-        <div className="container mx-auto px-4 py-8 max-w-4xl">
-            <h1 className="text-3xl font-bold mb-8 text-gray-800 dark:text-white">Nueva Nota de Código</h1>
+        <div className="p-6">
+            <h1 className="text-2xl font-medium mb-6">Nueva Nota de Código</h1>
             
-            <form onSubmit={handleSubmit} className="space-y-6">
+            <form onSubmit={handleSubmit} className="space-y-6 text-sm">
                 {/* Título */}
                 <div>
-                    <label htmlFor="title" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Título
-                    </label>
-                    <input
+                    <FormInput
                         type="text"
                         id="title"
                         name="title"
+                        label='Título'
                         value={formNote.title}
                         onChange={handleChange}
                         required
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
                         placeholder="Ej: Manejo de Promesas en JavaScript"
                     />
                 </div>
@@ -80,7 +81,7 @@ export default function CreateNotePage() {
                         name="language"
                         value={formNote.language}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
+                        className="w-full px-4 py-2 border border-[#535353c7] rounded-md bg-[#1e1e1e] focus:outline-none focus:ring-1 focus:ring-white transition-all duration-200 ease-in"
                     >
                         {languages.map((lang) => (
                             <option key={lang.value} value={lang.value}>
@@ -92,34 +93,29 @@ export default function CreateNotePage() {
 
                 {/* Código */}
                 <div>
-                    <label htmlFor="code" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Código
-                    </label>
-                    <textarea
+                    <FormTextArea
                         id="code"
                         name="code"
+                        label="Código"
                         value={formNote.code}
                         onChange={handleChange}
                         required
                         rows={10}
-                        className="w-full px-4 py-2 font-mono text-sm border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-800 dark:text-white"
+                        className="font-mono text-sm"
                         placeholder="Pega tu código aquí..."
                     />
                 </div>
 
                 {/* Explicación */}
                 <div>
-                    <label htmlFor="explanation" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Explicación
-                    </label>
-                    <textarea
+                    <FormTextArea
                         id="explanation"
                         name="explanation"
+                        label="Explicación"
                         value={formNote.explanation}
                         onChange={handleChange}
                         required
                         rows={4}
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
                         placeholder="Explica el problema o concepto que aborda este código..."
                     />
                 </div>
@@ -135,23 +131,20 @@ export default function CreateNotePage() {
                         value={formNote.solution}
                         onChange={handleChange}
                         rows={4}
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
+                        className="w-full px-4 py-2 border border-[#535353c7] rounded-md bg-[#1e1e1e] focus:outline-none focus:ring-1 focus:ring-white transition-all duration-200 ease-in"
                         placeholder="Describe la solución o los puntos clave del código..."
                     />
                 </div>
 
                 {/* Etiquetas */}
                 <div>
-                    <label htmlFor="tags" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Etiquetas (separadas por comas)
-                    </label>
-                    <input
+                    <FormInput
                         type="text"
                         id="tags"
                         name="tags"
+                        label="Etiquetas"
                         value={formNote.tags}
                         onChange={handleChange}
-                        className="w-full px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm focus:ring-indigo-500 focus:border-indigo-500 dark:bg-gray-700 dark:text-white"
                         placeholder="javascript, react, hooks, ..."
                     />
                     <p className="mt-1 text-sm text-gray-500 dark:text-gray-400">
@@ -164,14 +157,14 @@ export default function CreateNotePage() {
                     <button
                         type="button"
                         onClick={() => router.push('/dashboard')}
-                        className="px-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md shadow-sm text-sm font-medium text-gray-700 dark:text-gray-200 bg-white dark:bg-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+                        className="px-5 py-2 border border-[#535353c7] rounded-lg text-sm hover:bg-[#5353531a] transition-all duration-200 ease-in"
                     >
                         Cancelar
                     </button>
                     <button
                         type="submit"
                         disabled={isSubmitting}
-                        className="px-6 py-2 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500 disabled:opacity-50 disabled:cursor-not-allowed"
+                        className="px-6 py-2 border border-[#535353c7] bg-[#535353c7] text-white rounded-lg text-sm hover:bg-[#585858c7] transition-all duration-200 ease-in disabled:opacity-50 disabled:cursor-not-allowed"
                     >
                         {isSubmitting ? 'Guardando...' : 'Guardar Nota'}
                     </button>

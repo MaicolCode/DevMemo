@@ -1,59 +1,52 @@
-"use client"
-import { Note } from "@/types";
+import ProtectedRoute from "@/components/ProtectedRoute";
+import { SignedIn, UserButton } from "@clerk/nextjs";
+import Notes from "@/app/ui/dashboard/notes";
+import { NotesProvider } from "@/context/notes";
 import Link from "next/link";
-import { useNote } from "@/hooks/useNote";
+import { Plus } from "lucide-react";
 
 export default function DashboardLayout({
     children,
 }: Readonly<{
     children: React.ReactNode;
 }>) {
-    const {notes, error} = useNote();
 
     return (
-        <div className="min-h-screen box-border font-questrial">
-            <div className="container mx-auto px-4 py-8">
-                <h1 className="text-3xl font-bold mb-6">Tus Notas de Código</h1>
+        <>
+            <ProtectedRoute>
+                <header className="flex justify-end items-center p-4 gap-4 h-16">
+                    <SignedIn>
+                        <UserButton />
+                    </SignedIn>
+                </header>
+                <div className="max-h-screen bg-[#0f0f0f] text-gray-200 font-questrial px-4 py-6">
+                    <div className="container mx-auto bg-[#121212] rounded-lg overflow-hidden border border-[#2a2a2a]">
+                        <div className="flex justify-between items-center py-4 px-6 border-b border-[#2a2a2a] bg-[#1a1a1a]">
+                            <h1 className="text-xl font-medium">Tus Notas de Código</h1>
+                            <Link
+                                href="/dashboard/create"
+                                className="flex items-center gap-2 py-2 px-4 bg-[#2d2d2d] hover:bg-[#3a3a3a] border border-[#3a3a3a] rounded-lg text-sm transition-all duration-200 ease-in-out"
+                            >
+                                <Plus className="w-4 h-4" />
+                                <span>Crear Nota</span>
+                            </Link>
+                        </div>
 
-                <section className="flex">
-                    <div className=" rounded-lg shadow-sm border border-gray-100 p-6 w-[50%]">
-                        {error && (
-                            <div className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
-                                Error al cargar notas: {error.message}
-                            </div>
-                        )}
+                        <section className="flex flex-col md:flex-row h-[calc(100vh-12rem)]">
+                            <NotesProvider>
+                                <Notes />
+                                <div className="flex-1 p-6 overflow-y-auto bg-[#121212]">
+                                    {children}
+                                </div>
+                            </NotesProvider>
 
-                        {!notes || notes.length === 0 ? (
-                            <div className="text-gray-600 text-center py-8">
-                                Aún no tienes notas de código registradas.
-                            </div>
-                        ) : (
-                            <div className="space-y-4">
-                                {notes.map((nota: Note) => (
-                                    <Link href={`/dashboard/${nota.id}`}
-                                        key={nota.id}
-                                        className="relative block bg-white shadow-md rounded-lg px-6 py-4 border-l-4 border-blue-500 hover:shadow-lg transition-shadow duration-200 w-full"
-                                    >
-                                        <span className="absolute bottom-4 right-6 text-sm text-gray-500">{new Date(nota.created_at).toLocaleDateString()}</span>
-                                        <h2 className="text-md font-semibold mb-2 text-gray-800 line-clamp-2">
-                                            {nota.title}
-                                        </h2>
-                                        <div className="flex justify-between items-center text-sm text-gray-500">
-                                            
-                                            <span className="bg-blue-100 text-blue-800 px-2 py-1 rounded-full">
-                                                {nota.language || 'Sin lenguaje'}
-                                            </span>
-                                        </div>
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
+
+                        </section>
+
                     </div>
-                    <div className=" rounded-lg shadow-sm border border-gray-100 p-6 h-[calc(100vh-12rem)] w-full overflow-auto">
-                        {children}
-                    </div>
-                </section>
-            </div>
-        </div>
+                </div>
+            </ProtectedRoute>
+
+        </>
     );
 }
