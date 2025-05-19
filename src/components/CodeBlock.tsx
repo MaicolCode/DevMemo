@@ -23,7 +23,7 @@ export function CodeBlock({ code, language = 'plaintext' }: CodeBlockProps) {
     <pre className="rounded-lg overflow-hidden">
       <code
         ref={codeRef}
-        className={`hljs ${language} text-sm`}
+        className={`hljs ${language} text-sm`}        
       >
         {code}
       </code>
