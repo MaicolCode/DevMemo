@@ -21,7 +21,7 @@ export async function GET() {
         });
     }
 
-    return NextResponse.json({data, error});
+    return NextResponse.json({data, error: null}, {status: 200});
 }
 // Petición post para la creación de una nueva nota en la base de datos desde supabase
 export async function POST(req: Request){
@@ -44,9 +44,7 @@ export async function POST(req: Request){
         ...data
     });
 
-    console.log(error)
+    if (error) return NextResponse.json({error: error.message}, {status: 500});
 
-    if (error) return error;
-
-    return NextResponse.json(note);
+    return NextResponse.json({note, error: null}, {status: 200});
 }
