@@ -142,7 +142,7 @@ export default function EditNotePage() {
                         id="code"
                         name="code"
                         label="Código"
-                        value={note?.code || ''}
+                        defaultValue={note?.code || ''}
                         onChange={handleChange}
                         required
                         rows={10}
@@ -156,7 +156,7 @@ export default function EditNotePage() {
                         id="explanation"
                         name="explanation"
                         label="Explicación"
-                        value={note?.explanation || ''}
+                        defaultValue={note?.explanation || ''}
                         onChange={handleChange}
                         required
                         rows={5}
@@ -169,7 +169,7 @@ export default function EditNotePage() {
                         id="solution"
                         name="solution"
                         label="Solución (Opcional)"
-                        value={note?.solution || ''}
+                        defaultValue={note?.solution || ''}
                         onChange={handleChange}
                         rows={5}
                         placeholder="Explica cómo resolver el problema o implementar la solución..."
