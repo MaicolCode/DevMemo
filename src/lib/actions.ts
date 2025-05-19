@@ -18,6 +18,30 @@ export async function getNotes() {
     return await res.json(); // Aseguramos que se resuelva la promesa de res.json()
 }
 
+export async function postNote(note: FormData, user: string) {
+    const newNote = {
+        ...note,
+        tags: note.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
+    }
+
+    const res = await fetch("http://localhost:3000/api/notes", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json"
+        },
+        body: JSON.stringify({
+          ...newNote,
+          user_id: user
+        })
+      })
+
+    if (!res.ok) {
+        throw new Error("Error to save note")
+    }
+
+    return await res.json();
+}
+
 
 export async function deleteNote(id: string, user: string) {
     const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
@@ -40,8 +64,6 @@ export async function updateNote(id: string, note: FormData, user:string){
         ...note,
         tags: note.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
     }
-
-    console.log(newNote)
 
     const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
         method: "PUT",
