@@ -3,12 +3,15 @@ import { auth } from "@clerk/nextjs/server";
 import { NextResponse } from "next/server";
 import { supabase } from "@/lib/supabase";
 
+
 export async function GET(
-  request: Request,
-  { params }: { params: { id: string } }
-) {
+  req: Request) {
   try {
-    const {id: idNote} = await params;
+    const url = new URL(req.url);
+    const id = url.pathname.split('/').pop();
+
+
+    console.log(id);
 
 
     // Validar el token usando Clerk
@@ -21,10 +24,10 @@ export async function GET(
     // });
 
     // Simulamos una nota
-    const {data: note, error} = await supabase.from('code_notes').select('*').eq('id', idNote).eq('user_id', userId).single();
+    const { data: note, error } = await supabase.from('code_notes').select('*').eq('id', id).eq('user_id', userId).single();
 
     if (error) {
-        return NextResponse.json({error: error.message}, {status: 500});
+      return NextResponse.json({ error: error.message }, { status: 500 });
     }
 
     return NextResponse.json(note);
@@ -37,35 +40,35 @@ export async function GET(
   }
 }
 
-export async function DELETE(req: Request,
-  { params }: { params: { id: string} }) {
-  const {id} = await params;
-  const {user} = await req.json();
+export async function DELETE(req: Request) {
+  const url = new URL(req.url);
+  const id = url.pathname.split('/').pop();
+  const { user } = await req.json();
 
   /* const { userId } = await auth();
 
   console.log(userId) */
 
-  const {data: note, error} = await supabase.from('code_notes').delete().eq('id', id).eq('user_id', user);
-    console.log(note);
+  const { data: note, error } = await supabase.from('code_notes').delete().eq('id', id).eq('user_id', user);
 
-    if (error) {
-        return NextResponse.json({error: error.message}, {status: 500});
-    }
+  if (error) {
+    return NextResponse.json({ error: error.message }, { status: 500 });
+  }
 
-    return NextResponse.json(note);
+  return NextResponse.json(note);
 }
 
 
-export async function PUT(req: Request, {params}: {params: {id: string}}) {
-  const {id} = await params;
-  const {note , user} = await req.json();
+export async function PUT(req: Request) {
+  const url = new URL(req.url);
+    const id = url.pathname.split('/').pop();
+  const { note, user } = await req.json();
 
-  const {data, error} = await supabase.from('code_notes').update(note).eq('id', id).eq('user_id', user);
+  const { data, error } = await supabase.from('code_notes').update(note).eq('id', id).eq('user_id', user);
   console.log(error)
-  if(error) {
+  if (error) {
     return error;
   }
 
-  return NextResponse.json({data, error}, {status: 200});
+  return NextResponse.json({ data, error }, { status: 200 });
 }
