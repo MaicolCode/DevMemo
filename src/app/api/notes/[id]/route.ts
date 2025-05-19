@@ -65,9 +65,9 @@ export async function PUT(req: Request) {
   const { note, user } = await req.json();
 
   const { data, error } = await supabase.from('code_notes').update(note).eq('id', id).eq('user_id', user);
-  console.log(error)
+  
   if (error) {
-    return error;
+    return NextResponse.json({ error: error.message }, { status: 500 });
   }
 
   return NextResponse.json({ data, error }, { status: 200 });
