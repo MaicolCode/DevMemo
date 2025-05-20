@@ -1,7 +1,7 @@
 
-import ProtectedRoute from "@/components/ProtectedRoute";
+import ProtectedRoute from "@/app/ui/ProtectedRoute";
 import { SignedIn, UserButton } from "@clerk/nextjs";
-import Notes from "@/app/ui/dashboard/notes";
+import Notes from "@/app/ui/dashboard/Notes";
 import { NotesProvider } from "@/context/notes";
 import Link from "next/link";
 import { Plus, SquareSquare } from "lucide-react";
