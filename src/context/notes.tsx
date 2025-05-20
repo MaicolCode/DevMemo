@@ -17,9 +17,11 @@ const noteEx = {
 
 interface NotesContextType {
     notes: Note[];
+    filterNotes: Note[];
     error: { message: string } | null;
     createNote: () => Promise<void>;
     deleteNotes: (id: string) => Promise<void>;
+    searchNote: (search: string) => void;
     formNote: FormData;
     setFormNote: (note: FormData) => void;
     loading: boolean;
@@ -27,9 +29,11 @@ interface NotesContextType {
 
 export const notesContext = createContext<NotesContextType>({
     notes: [],
+    filterNotes: [],
     error: null,
     createNote: async () => {},
     deleteNotes: async () => {},
+    searchNote: () => {},
     formNote: noteEx,
     setFormNote: () => { return noteEx},
     loading: false
@@ -37,17 +41,24 @@ export const notesContext = createContext<NotesContextType>({
 
 export const NotesProvider = ({children}: {children: React.ReactNode}) => {
     const [notes, setNotes] = useState<Note[]>([]);
+    const [filterNotes, setFilterNotes] = useState<Note[]>([]);
     const [error, setError] = useState<{message: string} | null>(null);
     const [formNote, setFormNote] = useState<FormData>(noteEx);
     const [loading, setLoading] = useState(false);
     const { user } = useUser();
     const id = user?.id;
 
+    const searchNote = (search: string) => {
+        const filteredNotes = notes.filter((note: Note) => note.title.toLowerCase().includes(search.toLowerCase()));
+        setFilterNotes(filteredNotes);
+    }
+
     const fetchNotes = useCallback(async () => {
         setLoading(true);
         const { data, error } = await getNotes();
         const filteredNotes = data.filter((note: Note) => note.user_id === id);
         setNotes(filteredNotes);
+        setFilterNotes(filteredNotes);
         setError(error);
         setLoading(false);
     }, [id, setError]);
@@ -75,7 +86,7 @@ export const NotesProvider = ({children}: {children: React.ReactNode}) => {
     }, [fetchNotes, setError, id]);
 
     return (
-        <notesContext.Provider value={{ notes, error: error || null, createNote, deleteNotes, formNote, setFormNote: setFormNote, loading }}>
+        <notesContext.Provider value={{ notes, filterNotes, error: error || null, createNote, deleteNotes, searchNote, formNote, setFormNote: setFormNote, loading }}>
             {children}
         </notesContext.Provider>
     );
