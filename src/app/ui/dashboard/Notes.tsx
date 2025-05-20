@@ -6,6 +6,7 @@ import NoteCard from "@/app/ui/NoteCard";
 import ErrorMessage from "@/app/ui/Messages/Error";
 import SearchComponent from "../SearchComponent";
 import { motion, AnimatePresence } from "framer-motion";
+import { useState } from "react";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -44,6 +45,12 @@ const emptyStateVariants = {
 
 export default function Notes() {
     const { notes, filterNotes, error, searchNote } = useNote();
+    const [textFilter, setTextFilter] = useState('');
+    
+    const handleSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
+        searchNote(e.target.value);
+        setTextFilter(e.target.value);
+    }
 
     return (
         <motion.div 
@@ -52,7 +59,7 @@ export default function Notes() {
             animate="visible"
             variants={containerVariants}
         >
-            <SearchComponent onChange={(e: React.ChangeEvent<HTMLInputElement>) => searchNote(e.target.value)}/>
+            <SearchComponent onChange={handleSearch}/>
             <div className="h-auto mt-5"> 
                 
                 {error && (
@@ -61,18 +68,17 @@ export default function Notes() {
 
                 <AnimatePresence>
                     {
-                        filterNotes.length === 0 && (
+                        (filterNotes.length === 0 && textFilter.length > 0) &&(
                             <motion.div
                                 className="text-gray-400 text-center py-12 px-4"
-                                initial="hidden"
+                                initial="hidden"    
                                 animate="visible"
                                 exit="hidden"
                                 variants={emptyStateVariants}
                             >
                                 <p className="mb-2">Según los parametros de tu busqueda</p>
                                 <p className="text-xs text-gray-500">No se encontraron notas</p>
-                            </motion.div>
-                        )
+                            </motion.div>)
                     }
                 </AnimatePresence>
 
