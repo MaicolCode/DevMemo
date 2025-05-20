@@ -2,36 +2,120 @@
 
 import { Note } from "@/types";
 import { useNote } from "@/hooks/useNote";
-import NoteCard from "@/components/NoteCard";
-import ErrorMessage from "@/components/Messages/Error";
+import NoteCard from "@/app/ui/NoteCard";
+import ErrorMessage from "@/app/ui/Messages/Error";
+import SearchComponent from "../SearchComponent";
+import { motion, AnimatePresence } from "framer-motion";
+
+const containerVariants = {
+  hidden: { opacity: 0 },
+  visible: {
+    opacity: 1,
+    transition: {
+      when: "beforeChildren",
+      staggerChildren: 0.1
+    }
+  }
+};
+
+const itemVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { 
+    opacity: 1, 
+    y: 0,
+    transition: {
+      duration: 0.3
+    }
+  },
+  exit: { 
+    opacity: 0, 
+    y: 40,
+    transition: {
+      duration: 0.3,
+      ease: "easeIn"
+    }
+  }
+};
+
+const emptyStateVariants = {
+  hidden: { opacity: 0, y: 20 },
+  visible: { opacity: 1, y: 0 }
+};
 
 export default function Notes() {
-    const { notes, error, loading } = useNote();
+    const { notes, filterNotes, error, searchNote } = useNote();
 
     return (
-        <div className="w-full md:w-[350px] lg:w-[400px] border-r border-[#2a2a2a] p-4 overflow-y-auto">
-            {loading && (
-                <div className="flex items-center justify-center h-full">
-                    <div className="animate-spin rounded-md h-12 w-12 border-2 border-[#2a2a2a]"></div>
-                </div>
-            )}
-            {error && (
-                <ErrorMessage message={`Error al cargar notas: ${error.message}`} />
-            )}
+        <motion.div 
+            className="w-full md:w-[350px] lg:w-[400px] border-r border-[#2a2a2a] p-4 overflow-y-auto"
+            initial="hidden"
+            animate="visible"
+            variants={containerVariants}
+        >
+            <SearchComponent onChange={(e: React.ChangeEvent<HTMLInputElement>) => searchNote(e.target.value)}/>
+            <div className="h-auto mt-5"> 
+                
+                {error && (
+                    <ErrorMessage message={`Error al cargar notas: ${error.message}`} />
+                )}
 
-            {!notes || notes.length === 0 ? (
-                <div className="text-gray-400 text-center py-12 px-4">
-                    <p className="mb-2">No hay notas aún</p>
-                    <p className="text-xs text-gray-500">Crea tu primera nota haciendo clic en el botón superior</p>
-                </div>
-            ) : (
-                <div className="space-y-3 pr-2">
-                    {notes.map((nota: Note) => (
-                        <NoteCard key={nota.id} nota={nota} />
-                    ))}
-                </div>
-            )}
-        </div>
+                <AnimatePresence>
+                    {
+                        filterNotes.length === 0 && (
+                            <motion.div
+                                className="text-gray-400 text-center py-12 px-4"
+                                initial="hidden"
+                                animate="visible"
+                                exit="hidden"
+                                variants={emptyStateVariants}
+                            >
+                                <p className="mb-2">Según los parametros de tu busqueda</p>
+                                <p className="text-xs text-gray-500">No se encontraron notas</p>
+                            </motion.div>
+                        )
+                    }
+                </AnimatePresence>
 
+                {!notes || notes.length === 0 ? (
+                    <motion.div
+                        className="text-gray-400 text-center py-12 px-4"
+                        initial="hidden"
+                        animate="visible"
+                        exit="hidden"
+                        variants={emptyStateVariants}
+                    >
+                        <p className="mb-2">No hay notas aún</p>
+                        <p className="text-xs text-gray-500">Crea tu primera nota</p>
+                    </motion.div>
+                ) : (
+                    <motion.div
+                        className="space-y-3 pr-2"
+                        initial="hidden"
+                        animate="visible"
+                        variants={containerVariants}
+                    >
+                        <AnimatePresence mode="popLayout">
+                            {filterNotes.map((nota: Note) => (
+                                <motion.div
+                                    key={nota.id}
+                                    layout
+                                    variants={itemVariants}
+                                    initial="hidden"
+                                    animate="visible"
+                                    exit="exit"
+                                    transition={{
+                                        type: "spring",
+                                        stiffness: 100,
+                                        damping: 15
+                                    }}
+                                >
+                                    <NoteCard nota={nota} />
+                                </motion.div>
+                            ))}
+                        </AnimatePresence>
+                    </motion.div>
+                )}
+            </div>
+        </motion.div>
     );
 }
