@@ -31,7 +31,7 @@ export function useGetNote(noteId: string): UseNoteResult {
           throw new Error('No autorizado');
         }
 
-        const response = await fetch(`http://localhost:3000/api/notes/${noteId}`);
+        const response = await fetch(`https://devmemo.vercel.app/api/notes/${noteId}`);
 
         if (!response.ok) {
           const errorData = await response.json();

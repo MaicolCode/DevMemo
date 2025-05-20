@@ -3,7 +3,7 @@ import { FormData } from "@/types";
 
 export async function getNotes() {
 
-    const res = await fetch("http://localhost:3000/api/notes", {
+    const res = await fetch("https://devmemo.vercel.app/api/notes", {
         method: "GET",
         headers: {
             "Content-Type": "application/json"
@@ -24,7 +24,7 @@ export async function postNote(note: FormData, user: string) {
         tags: note.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
     }
 
-    const res = await fetch("http://localhost:3000/api/notes", {
+    const res = await fetch("https://devmemo.vercel.app/api/notes", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"
@@ -44,7 +44,7 @@ export async function postNote(note: FormData, user: string) {
 
 
 export async function deleteNote(id: string, user: string) {
-    const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
+    const res = await fetch(`https://devmemo.vercel.app/api/notes/${id}`, {
         method: "DELETE",
         headers: {
             "Content-Type": "application/json"            
@@ -65,7 +65,7 @@ export async function updateNote(id: string, note: FormData, user:string){
         tags: note.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
     }
 
-    const res = await fetch(`http://localhost:3000/api/notes/${id}`, {
+    const res = await fetch(`https://devmemo.vercel.app/api/notes/${id}`, {
         method: "PUT",
         headers: {
             "Content-Type": "application/json"            
