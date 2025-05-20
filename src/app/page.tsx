@@ -52,7 +52,7 @@ export default function Home() {
               </div>
             </div>
             <div className="flex items-center justify-center p-4 sm:p-6 md:p-10 rounded-md w-full md:w-[50%] bg-gradient-to-r from-zinc-900 to-zinc-700">
-              <Image src="/hero.png" alt="hero image to devmemo" className="hover:scale-105 transition-all duration-500 ease-in-out" width={500} height={500} />
+              <Image src="/hero.PNG" alt="hero image to devmemo" className="hover:scale-105 transition-all duration-500 ease-in-out" width={500} height={500} />
             </div>
 
           </div>
@@ -60,7 +60,7 @@ export default function Home() {
           <div className="flex flex-col-reverse sm:flex-row gap-4 w-full h-full ">
 
             <div className="flex items-center justify-center p-4 sm:p-6 md:p-10 rounded-md w-full md:w-[50%] my-8 sm:my-10 md:my-0 bg-gradient-to-r from-zinc-900 to-zinc-700 h-[calc(100vh-20rem)]">
-              <Image src="/hero-notes.png" alt="hero image to devmemo" className="hover:scale-105 transition-all duration-500 ease-in-out" width={500} height={500} />
+              <Image src="/hero-notes.PNG" alt="hero image to devmemo" className="hover:scale-105 transition-all duration-500 ease-in-out" width={500} height={500} />
             </div>
             <div className="flex flex-col gap-2 sm:gap-3">
               <h2 className="text-4xl md:text-5xl max-w-xl font-bold leading-tight text-gray-200 mb-4">DevMemo herramienta para almacenar tu conocimiento</h2>
@@ -75,17 +75,17 @@ export default function Home() {
               <div className="relative flex flex-col justify-center h-[250px] z-10 overflow-hidden bg-[#1a1a1a] rounded-xl p-6 border border-[#2a2a2a] hover:border-[#3b3b3b] hover:bg-[#1f1f1f] transition-all duration-200 ease-in">
                 <h2 className="text-xl md:text-2xl max-w-xl font-bold leading-tight text-gray-200 mb-4">Crealas</h2>
                 <p className="text-gray-400 text-sm max-w-xl">Haz un registro de los códigos y errores generados en tu proceso de desarrollo de software.</p>
-                <Image src="/create-note.png" alt="hero image to devmemo" className="absolute w-full h-full object-cover rounded-md top-0 left-0 -z-10 opacity-20" width={300} height={300} />
+                <Image src="/create-note.PNG" alt="hero image to devmemo" className="absolute w-full h-full object-cover rounded-md top-0 left-0 -z-10 opacity-20" width={300} height={300} />
               </div>
               <div className="relative flex flex-col justify-center h-[250px] z-10 overflow-hidden bg-[#1a1a1a] rounded-xl p-6 border border-[#2a2a2a] hover:border-[#3b3b3b] hover:bg-[#1f1f1f] transition-all duration-200 ease-in">
                 <h2 className="text-xl md:text-2xl max-w-xl font-bold leading-tight text-gray-200 mb-4">Editalas</h2>
                 <p className="text-gray-400 text-sm max-w-xl">Haz una edición de las notas con la nueva información que encontraste o descubriste.</p>
-                <Image src="/edit-note.png" alt="hero image to devmemo" className="absolute w-full h-full object-cover rounded-md top-0 left-0 -z-10 opacity-20" width={300} height={300} />
+                <Image src="/edit-note.PNG" alt="hero image to devmemo" className="absolute w-full h-full object-cover rounded-md top-0 left-0 -z-10 opacity-20" width={300} height={300} />
               </div>
               <div className="relative flex flex-col justify-center h-[250px] z-10 overflow-hidden bg-[#1a1a1a] rounded-xl p-6 border border-[#2a2a2a] hover:border-[#3b3b3b] hover:bg-[#1f1f1f] transition-all duration-200 ease-in">
                 <h2 className="text-xl md:text-2xl max-w-xl font-bold leading-tight text-gray-200 mb-4">Eliminalas</h2>
                 <p className="text-gray-400 text-sm max-w-xl">Si ya no necesitas de tus notas, puedes eliminarlas en cualquier momento.</p>
-                <Image src="/delete-note.png" alt="hero image to devmemo" className="absolute w-full h-full object-cover rounded-md top-0 left-0 -z-10 opacity-20" width={300} height={300} />
+                <Image src="/delete-note.PNG" alt="hero image to devmemo" className="absolute w-full h-full object-cover rounded-md top-0 left-0 -z-10 opacity-20" width={300} height={300} />
               </div>
             </div>
           </section>
