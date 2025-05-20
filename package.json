@@ -12,6 +12,7 @@
     "@clerk/nextjs": "^6.19.3",
     "@supabase/supabase-js": "^2.49.4",
     "@types/highlight.js": "^9.12.4",
+    "framer-motion": "^12.12.1",
     "highlight.js": "^11.11.1",
     "lucide-react": "^0.511.0",
     "next": "15.3.2",
