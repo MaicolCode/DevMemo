@@ -6,8 +6,8 @@ import { useAuth } from '@clerk/nextjs';
 import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
 import { useGetNote, useUpdateNote } from '@/hooks/useNote';
-import FormInput from '@/components/FormInput';
-import FormTextArea from '@/components/FormTextArea';
+import FormInput from '@/app/ui/FormInput';
+import FormTextArea from '@/app/ui/FormTextArea';
 
 export default function EditNotePage() {
     const router = useRouter();

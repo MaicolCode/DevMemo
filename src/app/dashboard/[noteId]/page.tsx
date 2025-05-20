@@ -4,7 +4,7 @@ import { useParams } from "next/navigation";
 import Link from "next/link";
 import { ArrowLeft } from "lucide-react";
 import { useGetNote } from "@/hooks/useNote";
-import { CodeBlock } from "@/components/CodeBlock";
+import { CodeBlock } from "@/app/ui/CodeBlock";
 import { useNote } from "@/hooks/useNote";
 import { useRouter } from "next/navigation";
 
