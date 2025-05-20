@@ -7,8 +7,8 @@ import { FormData } from '@/types';
 import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
 import {useNote} from '@/hooks/useNote';
-import FormInput from '@/components/FormInput';
-import FormTextArea from '@/components/FormTextArea';
+import FormInput from '@/app/ui/FormInput';
+import FormTextArea from '@/app/ui/FormTextArea';
 
 
 
@@ -41,6 +41,18 @@ export default function CreateNotePage() {
 
         try {
             await createNote();
+            // Limpiar el formulario
+            const clearForm = () => {
+                setFormNote({
+                    title: '',
+                    code: '',
+                    explanation: '',
+                    solution: '',
+                    language: 'javascript',
+                    tags: ''
+                });
+            };
+            clearForm();
 
             toast.success('Nota creada exitosamente');
             router.push('/dashboard');
