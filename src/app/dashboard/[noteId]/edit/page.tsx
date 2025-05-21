@@ -57,8 +57,8 @@ export default function EditNotePage() {
 
         try {
             await updatedNote();
-            toast.success('Nota actualizada exitosamente');
             router.push(`/dashboard/${noteId}`);
+            toast.success('Nota actualizada exitosamente');
         } catch (error) {
             console.error('Error:', error);
             toast.error('Error al actualizar la nota');
