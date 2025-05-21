@@ -7,6 +7,8 @@ import { useGetNote } from "@/hooks/useNote";
 import { CodeBlock } from "@/app/ui/CodeBlock";
 import { useNote } from "@/hooks/useNote";
 import { useRouter } from "next/navigation";
+import toast from "react-hot-toast";
+import { Note } from "@/types";
 
 
 
@@ -15,6 +17,17 @@ export default function NoteDetail() {
   const params = useParams<{ noteId: string }>();
   const { note, loading, error } = useGetNote(params.noteId);
   const {deleteNotes} = useNote();
+
+  const handleDelete = async (note: Note) => {
+    try {
+      await deleteNotes(note.id)
+      router.push('/dashboard');
+      toast.success('Nota eliminada exitosamente');
+    } catch (e) {
+      console.error(e);
+      toast.error('Error al eliminar la nota');    
+    }
+  }
 
   if (loading) {
     return (
@@ -62,10 +75,8 @@ export default function NoteDetail() {
             Editar
           </Link>
           <button 
-            onClick={async (e) => {
-              e.preventDefault();
-              await deleteNotes(note.id)
-              router.push('/dashboard');
+            onClick={() => {
+              handleDelete(note)
             }}
             className="text-sm px-4 py-2 bg-red-900/30 hover:bg-red-900/50 text-red-400 border border-red-900/50 rounded-lg transition-colors duration-200"
           >
