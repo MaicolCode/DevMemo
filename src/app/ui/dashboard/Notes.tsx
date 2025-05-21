@@ -59,7 +59,7 @@ export default function Notes() {
             animate="visible"
             variants={containerVariants}
         >
-            <SearchComponent onChange={handleSearch}/>
+            <SearchComponent onChange={handleSearch} disabled={notes.length === 0} active={notes.length > 0}/>
             <div className="h-auto mt-5"> 
                 
                 {error && (
