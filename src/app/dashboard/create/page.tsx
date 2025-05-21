@@ -18,7 +18,7 @@ export default function CreateNotePage() {
     const { isLoaded, userId } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const {formNote, setFormNote, createNote} = useNote();
-    const {code} = useNote();
+    const {code, setCode} = useNote();
 
     // Redirigir si el usuario no está autenticado
     useEffect(() => {
@@ -55,6 +55,8 @@ export default function CreateNotePage() {
                 });
             };
             clearForm();
+            
+        setCode('')
 
             router.push('/dashboard');
             toast.success('Nota creada exitosamente');
@@ -113,7 +115,7 @@ export default function CreateNotePage() {
                             Código
                         </label>
                         <CodeEditor
-                            code={code}
+                            currentValue={code}
                             language={formNote.language}
                             placeholder="Escribe tu código aquí..."
                             className="w-full"

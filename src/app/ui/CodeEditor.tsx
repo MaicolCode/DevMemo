@@ -15,13 +15,14 @@ import 'prismjs/themes/prism-tomorrow.css';
 import { useNote } from '@/hooks/useNote';
 
 interface CodeEditorProps extends TextareaHTMLAttributes<HTMLTextAreaElement>  {
-  code: string;
+  currentValue: string;
   language: string;
   placeholder?: string;
   className?: string;
 }
 
 export function CodeEditor({
+  currentValue="",
   language,
   placeholder = 'Escribe tu código aquí...',
   className = ''
@@ -52,7 +53,7 @@ export function CodeEditor({
   return (
     < >
       <Editor
-        value={code}
+        value={currentValue ?? code}
         onValueChange={(code) => setCode(code)}
         highlight={highlightWithLineNumbers}
         padding={10}
