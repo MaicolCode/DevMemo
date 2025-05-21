@@ -84,5 +84,5 @@ export function useUpdateNote(noteId: string) {
     }
   }
 
-  return { updatedNote, loading, error, setNewNote };
+  return { updatedNote, loading, error, setNewNote, newNote };
 }
