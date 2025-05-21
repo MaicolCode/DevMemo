@@ -8,6 +8,7 @@ import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
 import {useNote} from '@/hooks/useNote';
 import FormInput from '@/app/ui/FormInput';
+import { CodeEditor } from '@/app/ui/CodeEditor';
 import FormTextArea from '@/app/ui/FormTextArea';
 
 
@@ -17,6 +18,7 @@ export default function CreateNotePage() {
     const { isLoaded, userId } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
     const {formNote, setFormNote, createNote} = useNote();
+    const {code} = useNote();
 
     // Redirigir si el usuario no está autenticado
     useEffect(() => {
@@ -29,11 +31,11 @@ export default function CreateNotePage() {
         const { name, value } = e.target;
         const newFormData: FormData = {
             ...formNote,
+            code,
             [name]: value
         };
         setFormNote(newFormData);
     };
-    console.log(formNote)
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
@@ -106,17 +108,17 @@ export default function CreateNotePage() {
 
                 {/* Código */}
                 <div>
-                    <FormTextArea
-                        id="code"
-                        name="code"
-                        label="Código"
-                        value={formNote.code}
-                        onChange={handleChange}
-                        required
-                        rows={10}
-                        className="font-mono text-sm"
-                        placeholder="Pega tu código aquí..."
-                    />
+                    <div>
+                        <label htmlFor="code" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                            Código
+                        </label>
+                        <CodeEditor
+                            code={code}
+                            language={formNote.language}
+                            placeholder="Escribe tu código aquí..."
+                            className="w-full"
+                        />
+                    </div>
                 </div>
 
                 {/* Explicación */}

@@ -25,6 +25,9 @@ interface NotesContextType {
     formNote: FormData;
     setFormNote: (note: FormData) => void;
     loading: boolean;
+    code: string;
+    setCode: (code: string) => void;
+    
 }
 
 export const notesContext = createContext<NotesContextType>({
@@ -36,11 +39,14 @@ export const notesContext = createContext<NotesContextType>({
     searchNote: () => {},
     formNote: noteEx,
     setFormNote: () => { return noteEx},
-    loading: false
+    loading: false,
+    code: '',
+    setCode: () => {}
 });
 
 export const NotesProvider = ({children}: {children: React.ReactNode}) => {
     const [notes, setNotes] = useState<Note[]>([]);
+    const [code, setCode] = useState('');
     const [filterNotes, setFilterNotes] = useState<Note[]>([]);
     const [error, setError] = useState<{message: string} | null>(null);
     const [formNote, setFormNote] = useState<FormData>(noteEx);
@@ -86,7 +92,7 @@ export const NotesProvider = ({children}: {children: React.ReactNode}) => {
     }, [fetchNotes, setError, id]);
 
     return (
-        <notesContext.Provider value={{ notes, filterNotes, error: error || null, createNote, deleteNotes, searchNote, formNote, setFormNote: setFormNote, loading }}>
+        <notesContext.Provider value={{ notes, filterNotes, error: error || null, createNote, deleteNotes, searchNote, formNote, setFormNote: setFormNote, loading, code, setCode }}>
             {children}
         </notesContext.Provider>
     );
