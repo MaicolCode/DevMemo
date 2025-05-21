@@ -5,9 +5,10 @@ import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
-import { useGetNote, useUpdateNote } from '@/hooks/useNote';
+import { useGetNote, useNote, useUpdateNote } from '@/hooks/useNote';
 import FormInput from '@/app/ui/FormInput';
 import FormTextArea from '@/app/ui/FormTextArea';
+import { CodeEditor } from '@/app/ui/CodeEditor';
 
 export default function EditNotePage() {
     const router = useRouter();
@@ -18,10 +19,13 @@ export default function EditNotePage() {
     const { note, loading: isLoadingNote, error: noteError } = useGetNote(noteId);
     const {
         updatedNote,
+        newNote,
         loading: isUpdating,
         error: updateError,
         setNewNote
     } = useUpdateNote(noteId);
+
+    const { code, setCode } = useNote();
 
     // Redirigir si el usuario no está autenticado
     useEffect(() => {
@@ -42,21 +46,30 @@ export default function EditNotePage() {
                 tags: note.tags?.join(', ') || ''
             });
         }
-    }, [note, setNewNote]);
+
+        // Actualización del estado inicial del código
+        setCode(note?.code || '');
+    }, [note, setNewNote, setCode]);
 
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
-        setNewNote(prev => ({
-            ...prev,
+        const newNotes = {
+            ...newNote,
             [name]: value
-        }));
+        }
+        newNotes.code = code;
+        setNewNote(newNotes);
     };
+
+    // Actualizacion del valor del codigo     
+    newNote.code = code;
 
     const handleSubmit = async (e: React.FormEvent) => {
         e.preventDefault();
 
         try {
             await updatedNote();
+            setCode('');
             router.push(`/dashboard/${noteId}`);
             toast.success('Nota actualizada exitosamente');
         } catch (error) {
@@ -138,16 +151,14 @@ export default function EditNotePage() {
                 </div>
 
                 <div>
-                    <FormTextArea
-                        id="code"
-                        name="code"
-                        label="Código"
-                        defaultValue={note?.code || ''}
-                        onChange={handleChange}
-                        required
-                        rows={10}
-                        className="font-mono text-sm"
-                        placeholder="Pega tu código aquí..."
+                    <label htmlFor="code" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
+                        Código
+                    </label>
+                    <CodeEditor
+                        currentValue={note?.code || ''}
+                        language={note?.language || 'javascript'}
+                        placeholder="Escribe tu código aquí..."
+                        className="w-full"
                     />
                 </div>
 
