@@ -22,7 +22,7 @@ interface CodeEditorProps extends TextareaHTMLAttributes<HTMLTextAreaElement>  {
 }
 
 export function CodeEditor({
-  currentValue="",
+  currentValue= "",
   language,
   placeholder = 'Escribe tu código aquí...',
   className = ''
@@ -33,7 +33,10 @@ export function CodeEditor({
   // Evitar hidratación en el servidor
   useEffect(() => {
     setMounted(true);
-  }, []);
+    if(!currentValue) {
+      setCode('');
+    }
+  }, [currentValue, setCode]);
 
   // Función para resaltar la sintaxis
   const highlightWithLineNumbers = (code: string) => {
@@ -51,9 +54,9 @@ export function CodeEditor({
   }
 
   return (
-    < >
+    <div className={`bg-[#1e1e1e] p-4 rounded-md ${className}`}>
       <Editor
-        value={currentValue ?? code}
+        value={code}
         onValueChange={(code) => setCode(code)}
         highlight={highlightWithLineNumbers}
         padding={10}
@@ -67,6 +70,6 @@ export function CodeEditor({
         textareaClassName="focus:outline-none text-white"
         preClassName="m-0 p-0"
       />
-    </>
+    </div>
   );
 }

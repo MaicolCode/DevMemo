@@ -27,6 +27,10 @@ export default function CreateNotePage() {
         }
     }, [isLoaded, userId, router]);
 
+    useEffect(() => {
+        setCode('');
+    }, [setCode]);
+
     const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>) => {
         const { name, value } = e.target;
         const newFormData: FormData = {
