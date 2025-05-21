@@ -6,6 +6,7 @@ import { NotesProvider } from "@/context/notes";
 import Link from "next/link";
 import { Plus, SquareSquare } from "lucide-react";
 import { currentUser } from "@clerk/nextjs/server";
+import { Toaster } from "react-hot-toast";
 
 export default async function DashboardLayout({
     children,
@@ -17,6 +18,7 @@ export default async function DashboardLayout({
     return (
         <>
             <ProtectedRoute>
+                <Toaster position="top-center"/>
                 <header className="flex justify-end items-center py-2 px-4 gap-4 h-16 border-b border-[#2a2a2a]  font-questrial">
                     <nav className="flex items-center justify-between w-full">
                         <p className="text-sm flex items-center gap-1">
