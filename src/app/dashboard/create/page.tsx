@@ -54,13 +54,14 @@ export default function CreateNotePage() {
             };
             clearForm();
 
-            toast.success('Nota creada exitosamente');
             router.push('/dashboard');
+            toast.success('Nota creada exitosamente');
         } catch (error) {
             console.error('Error:', error);
             toast.error('Error al guardar la nota');
         } finally {
             setIsSubmitting(false);
+            router.push('/dashboard');
         }
     };
 
