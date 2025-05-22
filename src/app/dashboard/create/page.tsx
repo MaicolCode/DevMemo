@@ -135,24 +135,21 @@ export default function CreateNotePage() {
                         label="Explicación"
                         value={formNote.explanation}
                         onChange={handleChange}
+                        rows={15}
                         required
-                        rows={4}
                         placeholder="Explica el problema o concepto que aborda este código..."
                     />
                 </div>
 
                 {/* Solución */}
                 <div>
-                    <label htmlFor="solution" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
-                        Solución
-                    </label>
-                    <textarea
+                    <FormTextArea
                         id="solution"
                         name="solution"
+                        label="Solución"
                         value={formNote.solution}
                         onChange={handleChange}
-                        rows={4}
-                        className="w-full px-4 py-2 border border-[#535353c7] rounded-md bg-[#1e1e1e] focus:outline-none focus:ring-1 focus:ring-white transition-all duration-200 ease-in"
+                        rows={15}
                         placeholder="Describe la solución o los puntos clave del código..."
                     />
                 </div>

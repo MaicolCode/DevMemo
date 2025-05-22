@@ -7,7 +7,7 @@ interface FormTextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElement> 
 
 export default function FormTextArea({ label, error, ...props }: FormTextAreaProps) {
     return (
-        <div className="space-y-1">
+        <div className="space-y-1 h-auto">
             <label 
                 htmlFor={props.id} 
                 className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1"
@@ -17,7 +17,7 @@ export default function FormTextArea({ label, error, ...props }: FormTextAreaPro
             <textarea
                 {...props}
                 className={`
-                    w-full px-4 py-2 border border-[#535353c7] rounded-md bg-[#1e1e1e] 
+                    w-full p-4 h-auto border border-[#535353c7] rounded-md bg-[#1e1e1e] 
                     focus:outline-none focus:ring-1 focus:ring-white 
                     transition-all duration-200 ease-in
                     ${error ? 'border-red-500' : ''}
