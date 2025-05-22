@@ -36,7 +36,7 @@ export default function Home() {
       <main className="font-questrial min-h-screen p-6">
         <div className="mx-auto sm:px-4 pt-16 sm:pt-32 flex flex-col items-center justify-center gap-8 sm:gap-12 md:gap-16">
           {/* Hero Section */}
-          <div className="flex flex-col md:flex-row gap-6 w-full">
+          <section className="flex flex-col justify-center items-center md:flex-row gap-6 w-full my-20">
             <div className="flex flex-col gap-2 sm:gap-3">
               <h1 className="text-4xl md:text-5xl max-w-xl font-bold leading-tight text-gray-200 mb-4">
                 Transforma tu flujo de desarrollo
@@ -55,11 +55,11 @@ export default function Home() {
               <Image src="/hero.PNG" alt="hero image to devmemo" className="hover:scale-105 transition-all duration-500 ease-in-out" width={500} height={500} />
             </div>
 
-          </div>
+          </section>
 
-          <div className="flex flex-col-reverse sm:flex-row gap-4 w-full h-full ">
+          <section className="flex flex-col-reverse justify-center items-center sm:flex-row gap-4 w-full h-full my-20">
 
-            <div className="flex items-center justify-center p-4 sm:p-6 md:p-10 rounded-md w-full md:w-[50%] my-8 sm:my-10 md:my-0 bg-gradient-to-r from-zinc-900 to-zinc-700 h-[calc(100vh-20rem)]">
+            <div className="flex items-center justify-center p-4 sm:p-6 md:p-10 rounded-md w-full md:w-[50%] my-8 sm:my-10 md:my-0 bg-gradient-to-r from-zinc-900 to-zinc-700">
               <Image src="/hero-notes.PNG" alt="hero image to devmemo" className="hover:scale-105 transition-all duration-500 ease-in-out" width={500} height={500} />
             </div>
             <div className="flex flex-col gap-2 sm:gap-3">
@@ -67,11 +67,11 @@ export default function Home() {
               <p className="text-md md:text-lg text-gray-400 max-w-xl">DevMemo es una herramienta de registro y organización que te permite mantener un historial detallado de tus códigos y errores generados en tu proceso de desarrollo de software. Con ella, podrás acceder rápidamente a tus registros, crear notas del código utilizado o del error en cuestión, anotar tus propias conclusiones y soluciones, y así agilizar tu proceso de desarrollo. De esta manera, podrás aprovechar al máximo tu conocimiento y experiencia para abordar nuevos proyectos con mayor eficiencia y confianza.</p>
             </div>
 
-          </div>
+          </section>
 
           <section className="my-8 sm:my-10 md:my-20">
             <h2 className="text-4xl md:text-5xl max-w-xl font-bold leading-tight text-gray-200 mb-4">Las notas que tengas en mente</h2>
-            <div className="max-w-4xl w-full grid grid-cols-3 gap-4">
+            <div className="max-w-4xl w-full grid md:grid-cols-3 grid-cols-1 gap-4 ">
               <div className="relative flex flex-col justify-center h-[250px] z-10 overflow-hidden bg-[#1a1a1a] rounded-xl p-6 border border-[#2a2a2a] hover:border-[#3b3b3b] hover:bg-[#1f1f1f] transition-all duration-200 ease-in">
                 <h2 className="text-xl md:text-2xl max-w-xl font-bold leading-tight text-gray-200 mb-4">Crealas</h2>
                 <p className="text-gray-400 text-sm max-w-xl">Haz un registro de los códigos y errores generados en tu proceso de desarrollo de software.</p>
@@ -93,7 +93,7 @@ export default function Home() {
 
 
           {/* Features Grid */}
-          <div className="max-w-5xl w-full text-sm sm:text-base">
+          <section className="max-w-5xl w-full text-sm sm:text-base my-20">
             <h2 className="text-4xl md:text-5xl max-w-xl font-bold leading-tight text-gray-200 my-10">Características</h2>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
               {/* Codigo Card */}
@@ -216,11 +216,11 @@ export default function Home() {
                 </ul>
               </div>
             </div>
-          </div>
+          </section>
 
-          <section className="flex flex-col items-center justify-center h-[calc(100vh-16rem)] bg-[#1a1a1a] w-full bg-gradient-to-tr from-stone-700 to-zinc-900">
-            <h2 className="text-4xl md:text-5xl max-w-xl font-bold leading-tight text-gray-200 mb-4">Próximamente</h2>
-            <p className="text-gray-300 text-sm max-w-xl">
+          <section className="flex flex-col p-2 items-center justify-center h-[calc(100vh-16rem)] bg-[#1a1a1a] w-full bg-gradient-to-tr from-stone-700 to-zinc-900">
+            <h2 className="text-3xl md:text-5xl max-w-xl font-bold leading-tight text-gray-200 mb-4">Próximamente</h2>
+            <p className="text-gray-300 md:text-sm text-xs max-w-xl text-center">
               A futuro, DevMemo podrá ofrecerte un mejor filtrado de tus notas, compartir tus notas con
               otros usuarios y mucho más.
             </p>
@@ -231,7 +231,7 @@ export default function Home() {
 
       </main>
       {/* Footer */}
-      <footer className="w-full bg-[#1a1a1a] border-t border-[#2a2a2a] font-questrial mt-10">
+      <footer className="w-full bg-[#1a1a1a] border-t border-[#2a2a2a] font-questrial mt-10 flex justify-center">
         <div className="container mt-auto sm:px-4 py-6 flex flex-col sm:flex-row justify-between items-center gap-4">
           <div className="flex flex-col gap-2">
             <p className="flex items-center gap-2 text-gray-200">
