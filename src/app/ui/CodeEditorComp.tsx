@@ -40,7 +40,7 @@ export function CodeEditorComp({
   }
 
   return (
-    <div className={`bg-[#1e1e1e] p-4 rounded-md h-auto ${className}`}>
+    <div className={`bg-[#1e1e1e] p-4 rounded-md h-auto ${className} border border-[#535353c7] focus-within:ring-1 focus-within:ring-white transition-all duration-200 ease-in`}>
       <CodeEditor
         value={code}
         language={language}
