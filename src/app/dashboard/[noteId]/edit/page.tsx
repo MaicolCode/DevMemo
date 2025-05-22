@@ -8,7 +8,7 @@ import { languages } from '@/lib/constants';
 import { useGetNote, useNote, useUpdateNote } from '@/hooks/useNote';
 import FormInput from '@/app/ui/FormInput';
 import FormTextArea from '@/app/ui/FormTextArea';
-import { CodeEditor } from '@/app/ui/CodeEditor';
+import { CodeEditorComp } from '@/app/ui/CodeEditorComp';
 
 export default function EditNotePage() {
     const router = useRouter();
@@ -137,13 +137,13 @@ export default function EditNotePage() {
                     <select
                         id="language"
                         name="language"
+                        disabled
                         onChange={handleChange}
                         defaultValue={note?.language || 'javascript'}
-                        className="w-full px-4 py-2 border border-[#3a3a3a] rounded-md bg-[#1e1e1e] text-gray-200 focus:outline-none focus:ring-1 focus:ring-white transition-all duration-200 ease-in"
-                        required
+                        className="w-full px-4 py-2 border border-[#3a3a3a] rounded-md bg-[#2c2c2c] text-gray-200 focus:outline-none focus:ring-1 focus:ring-white transition-all duration-200 ease-in"
                     >
                         {languages.map((lang) => (
-                            <option key={lang.value} value={lang.value} className="bg-[#1e1e1e] text-gray-200">
+                            <option key={lang.value} value={lang.value} className="bg-[#2c2c2c] text-gray-200">
                                 {lang.label}
                             </option>
                         ))}
@@ -154,7 +154,7 @@ export default function EditNotePage() {
                     <label htmlFor="code" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                         Código
                     </label>
-                    <CodeEditor
+                    <CodeEditorComp
                         currentValue={note?.code || ''}
                         language={note?.language || 'javascript'}
                         placeholder="Escribe tu código aquí..."

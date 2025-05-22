@@ -8,7 +8,7 @@ import { toast } from 'react-hot-toast';
 import { languages } from '@/lib/constants';
 import {useNote} from '@/hooks/useNote';
 import FormInput from '@/app/ui/FormInput';
-import { CodeEditor } from '@/app/ui/CodeEditor';
+import { CodeEditorComp } from '@/app/ui/CodeEditorComp';
 import FormTextArea from '@/app/ui/FormTextArea';
 
 
@@ -118,7 +118,7 @@ export default function CreateNotePage() {
                         <label htmlFor="code" className="block text-sm font-medium text-gray-700 dark:text-gray-300 mb-1">
                             Código
                         </label>
-                        <CodeEditor
+                        <CodeEditorComp
                             currentValue={code}
                             language={formNote.language}
                             placeholder="Escribe tu código aquí..."
