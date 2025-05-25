@@ -37,7 +37,10 @@ export default function RootLayout({
       layout: {
         unsafe_disableDevelopmentModeWarnings: true,
       },
-    }}>
+      variables: {
+        colorPrimary: '#1f1f1f'          
+      }
+    }} >
       <html lang="en">
         <body
           className={`${geistSans.variable} ${geistMono.variable} ${fontQuestrial.className} bg-[#0f0f0f] antialiased`}
