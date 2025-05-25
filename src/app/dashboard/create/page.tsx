@@ -135,7 +135,6 @@ export default function CreateNotePage() {
                         label="Explicación"
                         value={formNote.explanation}
                         onChange={handleChange}
-                        rows={15}
                         required
                         placeholder="Explica el problema o concepto que aborda este código..."
                     />
@@ -149,7 +148,6 @@ export default function CreateNotePage() {
                         label="Solución"
                         value={formNote.solution}
                         onChange={handleChange}
-                        rows={15}
                         placeholder="Describe la solución o los puntos clave del código..."
                     />
                 </div>

@@ -170,7 +170,6 @@ export default function EditNotePage() {
                         defaultValue={note?.explanation || ''}
                         onChange={handleChange}
                         required
-                        rows={20}
                         placeholder="Explica el problema o concepto que aborda este código..."
                     />
                 </div>
@@ -182,7 +181,6 @@ export default function EditNotePage() {
                         label="Solución (Opcional)"
                         defaultValue={note?.solution || ''}
                         onChange={handleChange}
-                        rows={20}
                         placeholder="Explica cómo resolver el problema o implementar la solución..."
                     />
                 </div>
