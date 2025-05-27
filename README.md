@@ -4,17 +4,47 @@
 
 DevMemo es una aplicación web diseñada para desarrolladores que necesitan mantener un registro detallado de sus notas de código, errores y soluciones. Con DevMemo, podrás:
 
-- 📝 Registrar notas importantes sobre código
-- 🐛 Documentar errores y sus soluciones
-- 🌐 Acceder a tus notas desde cualquier lugar
+- 📝 Crear y editar notas de código
+- 📝 Documentar errores y sus soluciones
+- 📱 Acceder a tus notas desde cualquier lugar
 - 👥 Gestionar tu cuenta de forma segura
+- 📋 Organizar tus notas en un dashboard
 
 ## Tecnologías Utilizadas
 
-- **Frontend & Backend**: [Next.js](https://nextjs.org/)
+- **Frontend & Backend**: [Next.js](https://nextjs.org/) 14
 - **Estilos**: [Tailwind CSS](https://tailwindcss.com/)
 - **Autenticación**: [Clerk](https://clerk.com/)
 - **Base de Datos**: [Supabase](https://supabase.com/)
+- **UI Components**: [Shadcn/ui](https://ui.shadcn.com/)
+- **Form Handling**: React Hook Form
+- **Type Safety**: TypeScript
+
+## Características Principales
+
+- 📝 Sistema de notas con soporte para texto enriquecido
+- 📋 Dashboard personalizado para gestionar tus notas
+- 📝 Formularios intuitivos para crear y editar notas
+- 🌐 Acceso multiplataforma
+- 👥 Autenticación segura con Clerk
+- 🔄 Actualizaciones en tiempo real con Supabase
+
+## Estructura del Proyecto
+
+```
+src/
+├── app/
+│   ├── dashboard/
+│   │   ├── create/
+│   │   │   └── page.tsx
+│   │   └── [noteId]/
+│   │       └── edit/
+│   │           └── page.tsx
+│   ├── ui/
+│   │   └── FormTextArea.tsx
+│   └── layout.tsx
+└── ...
+```
 
 ## Comenzando
 
@@ -40,33 +70,44 @@ pnpm dev
 
 Abre [http://localhost:3000](http://localhost:3000) en tu navegador para ver la aplicación.
 
-## Características Principales
+## Requisitos del Sistema
 
-- Registro de notas de código
-- Seguimiento de errores y soluciones
-- Autenticación segura
-- Almacenamiento en la nube
-- Acceso multiplataforma
+- Node.js 18 o superior
+- npm 8 o superior
+- Una cuenta en Supabase
+- Una cuenta en Clerk
+
+## Variables de Entorno
+
+Crea un archivo `.env.local` con las siguientes variables:
+
+```
+NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY=your_clerk_key
+NEXT_PUBLIC_CLERK_SIGN_IN_URL=/sign-in
+NEXT_PUBLIC_CLERK_SIGN_UP_URL=/sign-up
+NEXT_PUBLIC_CLERK_AFTER_SIGN_IN_URL=/dashboard
+NEXT_PUBLIC_CLERK_AFTER_SIGN_UP_URL=/dashboard
+NEXT_PUBLIC_SUPABASE_URL=your_supabase_url
+NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
+```
 
 ## Contribuciones
 
-¡Las contribuciones son bienvenidas! Por favor, lee las guías de contribución antes de comenzar.
+¡Las contribuciones son bienvenidas! Por favor, crea un issue para discutir cambios significativos antes de hacer un pull request.
 
 ## Licencia
 
-[Especifica tu licencia aquí]
+MIT License
 
 ## Aprende Más
 
 Para aprender más sobre Next.js, echa un vistazo a los siguientes recursos:
 
-- [Documentación de Next.js](https://nextjs.org/docs) - aprende sobre las características y API de Next.js.
-- [Aprende Next.js](https://nextjs.org/learn) - un tutorial interactivo de Next.js.
+- [Documentación de Next.js](https://nextjs.org/docs)
+- [Aprende Next.js](https://nextjs.org/learn)
+- [Documentación de Supabase](https://supabase.com/docs)
+- [Documentación de Clerk](https://clerk.com/docs)
 
-Puedes revisar [el repositorio de GitHub de Next.js](https://github.com/vercel/next.js) - tus comentarios y contribuciones son bienvenidos.
+## Despliegue
 
-## Despliega en Vercel
-
-La forma más sencilla de desplegar tu aplicación Next.js es usar la [Plataforma Vercel](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) de los creadores de Next.js.
-
-Consulta nuestra [documentación de despliegue de Next.js](https://nextjs.org/docs/app/building-your-application/deploying) para más detalles.
+La aplicación puede ser desplegada en cualquier plataforma que soporte Node.js, como Vercel, Netlify o Railway.
