@@ -95,10 +95,6 @@ NEXT_PUBLIC_SUPABASE_ANON_KEY=your_supabase_anon_key
 
 ¡Las contribuciones son bienvenidas! Por favor, crea un issue para discutir cambios significativos antes de hacer un pull request.
 
-## Licencia
-
-MIT License
-
 ## Aprende Más
 
 Para aprender más sobre Next.js, echa un vistazo a los siguientes recursos:
