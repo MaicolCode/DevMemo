@@ -22,7 +22,9 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "react-hot-toast": "^2.5.2",
-    "react-spring": "^10.0.0"
+    "react-markdown": "^10.1.0",
+    "react-spring": "^10.0.0",
+    "rehype-raw": "^7.0.0"
   },
   "devDependencies": {
     "@eslint/eslintrc": "^3",
