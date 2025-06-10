@@ -25,3 +25,9 @@ export const languages = [
   { value: 'graphql', label: 'GraphQL' },
   { value: 'other', label: 'Otro' },
 ];
+
+
+ export enum URLDeployAPI {
+  vercel = "https://devmemo.vercel.app/api/notes",
+  local = "http://localhost:3000/api/notes"
+}
