@@ -9,6 +9,7 @@ import { useNote } from "@/hooks/useNote";
 import { useRouter } from "next/navigation";
 import toast from "react-hot-toast";
 import { Note } from "@/types";
+import MarkDownBlock from "@/app/ui/MarkDownBlock";
 
 
 
@@ -16,7 +17,7 @@ export default function NoteDetail() {
   const router = useRouter();
   const params = useParams<{ noteId: string }>();
   const { note, loading, error } = useGetNote(params.noteId);
-  const {deleteNotes} = useNote();
+  const { deleteNotes } = useNote();
 
   const handleDelete = async (note: Note) => {
     try {
@@ -25,7 +26,7 @@ export default function NoteDetail() {
       toast.success('Nota eliminada exitosamente');
     } catch (e) {
       console.error(e);
-      toast.error('Error al eliminar la nota');    
+      toast.error('Error al eliminar la nota');
     }
   }
 
@@ -65,16 +66,16 @@ export default function NoteDetail() {
           >
             <ArrowLeft size={20} />
           </Link>
-          <h2 className="text-2xl font-medium text-gray-100">{note.title}</h2>
+          <h2 className="text-2xl font-bold text-gray-100">{note.title}</h2>
         </div>
         <div className="flex space-x-3">
-          <Link 
+          <Link
             href={`/dashboard/${note.id}/edit`}
             className="text-sm px-4 py-2 bg-[#2d2d2d] hover:bg-[#3a3a3a] border border-[#3a3a3a] rounded-lg transition-colors duration-200"
           >
             Editar
           </Link>
-          <button 
+          <button
             onClick={() => {
               handleDelete(note)
             }}
@@ -99,9 +100,9 @@ export default function NoteDetail() {
           </span>
         </div>
 
-        <div className="bg-[#1e1e1e] rounded-lg overflow-hidden border border-[#2a2a2a]">
-          <CodeBlock 
-            code={note.code} 
+        <div className="bg-[#2d2d2d] rounded-lg overflow-hidden border border-[#2a2a2a]">
+          <CodeBlock
+            code={note.code}
             language={note.language?.toLowerCase() || 'plaintext'}
           />
         </div>
@@ -119,16 +120,21 @@ export default function NoteDetail() {
           </div>
         )}
 
+        <h2 className="text-xl font-bold text-gray-100 mb-4">Explicación</h2>
+
         <div className="bg-[#1e1e1e] rounded-lg p-6 border border-[#2a2a2a]">
-          <h2 className="text-lg font-medium text-gray-100 mb-4">Explicación</h2>
-          <p className="text-gray-300 whitespace-pre-line">{note.explanation}</p>
+          <MarkDownBlock explanation={note.explanation} language={note.language?.toLowerCase() || 'plaintext'} />
+
         </div>
 
         {note.solution && (
-          <div className="bg-[#1e1e1e] rounded-lg p-6 border border-[#2a2a2a]">
-            <h2 className="text-lg font-medium text-gray-100 mb-4">Solución</h2>
-            <p className="text-gray-300 whitespace-pre-line">{note.solution}</p>
-          </div>
+          <>
+            <h2 className="text-xl font-bold text-gray-100 mb-4">Solución</h2>
+            <div className="bg-[#1e1e1e] rounded-lg p-6 border border-[#2a2a2a]">
+
+              <MarkDownBlock explanation={note.solution} language={note.language?.toLowerCase() || 'plaintext'} />
+            </div>
+          </>
         )}
       </div>
     </div>
