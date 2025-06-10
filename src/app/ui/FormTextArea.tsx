@@ -22,7 +22,7 @@ export default function FormTextArea({ label, error, ...props }: FormTextAreaPro
                     autoComplete='off'
                     spellCheck={false}
                     autoCapitalize='off'
-                    className='w-full border-none p-0 m-0 h-full leading-5 tracking-wide overflow-hidden focus:outline-none resize-none min-h-[100px] max-h-[calc(100vh - 20rem)]'
+                    className='w-full border-none p-0 m-0 h-auto leading-5 tracking-wide overflow-hidden focus:outline-none resize-none min-h-[100px] max-h-[calc(100vh - 20rem)]'
                     style={{ height: 'auto'}}
                     onKeyDown={(e) => {
                         const target = e.currentTarget as HTMLTextAreaElement;
