@@ -3,6 +3,7 @@ import { useUser } from '@clerk/nextjs';
 import { FormData, Note } from '@/types';
 import { updateNote } from '@/lib/actions';
 import { notesContext } from '@/context/notes';
+import { URLDeployAPI } from '@/lib/constants';
 
 export interface UseNoteResult {
   note: Note | null;
@@ -31,7 +32,7 @@ export function useGetNote(noteId: string): UseNoteResult {
           throw new Error('No autorizado');
         }
 
-        const response = await fetch(`https://devmemo.vercel.app/api/notes/${noteId}`);
+        const response = await fetch(`${URLDeployAPI.vercel}/${noteId}`);
 
         if (!response.ok) {
           const errorData = await response.json();

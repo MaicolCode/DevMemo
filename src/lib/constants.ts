@@ -27,7 +27,7 @@ export const languages = [
 ];
 
 
- export enum URLDeployAPI {
+export enum URLDeployAPI {
   vercel = "https://devmemo.vercel.app/api/notes",
   local = "http://localhost:3000/api/notes"
 }
