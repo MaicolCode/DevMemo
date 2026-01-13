@@ -4,7 +4,7 @@ import { useEffect } from 'react';
 import { useRouter, useParams } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import { toast } from 'react-hot-toast';
-import { languages } from '@/lib/constants';
+import { languages } from '@/utils/constants';
 import { useGetNote, useNote, useUpdateNote } from '@/hooks/useNote';
 import FormInput from '@/app/ui/FormInput';
 import FormTextArea from '@/app/ui/FormTextArea';

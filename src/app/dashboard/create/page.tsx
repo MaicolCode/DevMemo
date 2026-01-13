@@ -5,8 +5,8 @@ import { useRouter } from 'next/navigation';
 import { useAuth } from '@clerk/nextjs';
 import { FormData } from '@/types';
 import { toast } from 'react-hot-toast';
-import { languages } from '@/lib/constants';
-import {useNote} from '@/hooks/useNote';
+import { languages } from '@/utils/constants';
+import { useNote } from '@/hooks/useNote';
 import FormInput from '@/app/ui/FormInput';
 import { CodeEditorComp } from '@/app/ui/CodeEditorComp';
 import FormTextArea from '@/app/ui/FormTextArea';
@@ -17,8 +17,8 @@ export default function CreateNotePage() {
     const router = useRouter();
     const { isLoaded, userId } = useAuth();
     const [isSubmitting, setIsSubmitting] = useState(false);
-    const {formNote, setFormNote, createNote} = useNote();
-    const {code, setCode} = useNote();
+    const { formNote, setFormNote, createNote } = useNote();
+    const { code, setCode } = useNote();
 
     // Redirigir si el usuario no está autenticado
     useEffect(() => {
@@ -59,8 +59,8 @@ export default function CreateNotePage() {
                 });
             };
             clearForm();
-            
-        setCode('')
+
+            setCode('')
 
             router.push('/dashboard');
             toast.success('Nota creada exitosamente');
@@ -76,7 +76,7 @@ export default function CreateNotePage() {
     return (
         <div className="p-6">
             <h1 className="text-2xl font-medium mb-6">Nueva Nota de Código</h1>
-            
+
             <form onSubmit={handleSubmit} className="space-y-6 text-sm">
                 {/* Título */}
                 <div>

@@ -1,5 +1,5 @@
 import { FormData } from "@/types";
-import { URLDeployAPI } from "./constants";
+import { URLDeployAPI } from "@/utils/constants";
 
 
 export async function getNotes() {
@@ -28,13 +28,13 @@ export async function postNote(note: FormData, user: string) {
     const res = await fetch(URLDeployAPI.vercel, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json"
+            "Content-Type": "application/json"
         },
         body: JSON.stringify({
-          ...newNote,
-          user_id: user
+            ...newNote,
+            user_id: user
         })
-      })
+    })
 
     if (!res.ok) {
         throw new Error("Error to save note")
@@ -46,21 +46,21 @@ export async function postNote(note: FormData, user: string) {
 
 export async function deleteNote(id: string, user: string) {
     const res = await fetch(`${URLDeployAPI.vercel}/${id}`, {
-        method: "DELETE",   
+        method: "DELETE",
         headers: {
-            "Content-Type": "application/json"            
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify({user})
+        body: JSON.stringify({ user })
     })
 
-    if(!res.ok) {
+    if (!res.ok) {
         throw new Error("Error to delete note")
     }
 
     return await res.json();
 }
 
-export async function updateNote(id: string, note: FormData, user:string){
+export async function updateNote(id: string, note: FormData, user: string) {
     const newNote = {
         ...note,
         tags: note.tags.split(',').map(tag => tag.trim()).filter(tag => tag.length > 0)
@@ -69,12 +69,12 @@ export async function updateNote(id: string, note: FormData, user:string){
     const res = await fetch(`${URLDeployAPI.vercel}/${id}`, {
         method: "PUT",
         headers: {
-            "Content-Type": "application/json"            
+            "Content-Type": "application/json"
         },
-        body: JSON.stringify({note: newNote, user: user})
+        body: JSON.stringify({ note: newNote, user: user })
     })
 
-    if(!res.ok) {
+    if (!res.ok) {
         throw new Error("Error to update note")
     }
 }

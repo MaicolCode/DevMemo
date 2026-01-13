@@ -3,7 +3,7 @@ import { useUser } from '@clerk/nextjs';
 import { FormData, Note } from '@/types';
 import { updateNote } from '@/lib/actions';
 import { notesContext } from '@/context/notes';
-import { URLDeployAPI } from '@/lib/constants';
+import { URLDeployAPI } from '@/utils/constants';
 
 export interface UseNoteResult {
   note: Note | null;
@@ -12,7 +12,7 @@ export interface UseNoteResult {
 }
 
 export function useNote() {
-  const {notes, filterNotes, error, deleteNotes, searchNote, formNote, setFormNote, createNote, loading, code, setCode } = useContext(notesContext);
+  const { notes, filterNotes, error, deleteNotes, searchNote, formNote, setFormNote, createNote, loading, code, setCode } = useContext(notesContext);
 
   return { notes, filterNotes, error, deleteNotes, searchNote, formNote, setFormNote, createNote, loading, code, setCode };
 }
