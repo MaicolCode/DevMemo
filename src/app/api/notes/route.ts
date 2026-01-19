@@ -28,8 +28,9 @@ export async function GET() {
 }
 // Petición post para la creación de una nueva nota en la base de datos desde supabase
 export async function POST(req: Request) {
+    const { userId } = await auth();
 
-    const { title, code, explanation, solution, language, tags, user_id } = await req.json();
+    const { title, code, explanation, solution, language, tags } = await req.json();
 
 
     const data = {
@@ -39,7 +40,7 @@ export async function POST(req: Request) {
         solution,
         language,
         tags,
-        user_id
+        user_id: userId
     }
 
 
