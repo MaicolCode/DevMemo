@@ -14,3 +14,32 @@ La consola SQL nos permite ejecutar consultas SQL en la base de datos. Para acce
 
 - Para esta ocasión usamos la consola de supabase para crear la estructura de la base de datos. (Creación de las tablas, inserción de datos, etc.)
 
+
+# Next JS
+Next.js es un framework de React que nos permite crear aplicaciones web de forma rápida y eficiente. 
+
+## Server actions
+Los server actions son funciones que se ejecutan del lado del servidor.
+
+- Para esta ocasión usamos los server actions para crear, actualizar y eliminar notas.
+
+```
+'use server' //<-- Menciona que la funcion se ejecutara en el lado del servidor.
+export async function createNoteAction(formData: FormData) {
+  const title = formData.get('title');
+  // ... lógica para guardar en Supabase directamente ...
+  // Puedes usar revalidatePath para actualizar la UI al instante
+}
+...
+```
+
+Para que esto funcione el archivo que contiene la lógica debe de mencionar que se va a usar del lado del servidor como se muestra en el anterior ejemplo.
+
+### Uso del server action
+
+```
+<form action={createNoteAction}>
+  <input type="text" name="title" />
+  <button type="submit">Crear</button>
+</form>
+```
