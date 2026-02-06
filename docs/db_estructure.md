@@ -6,14 +6,17 @@ La base de datos de **DevMemo** está diseñada para ser eficiente y fácil de c
 
 ## 🏗️ Tablas Principales
 
-### 1. `notes` (La entidad central)
+### 1. `code_notes` (La entidad central)
 Almacena el contenido principal de tus notas o snippets.
 - `id`: UUID (Primary Key) - Identificador único.
 - `title`: VARCHAR(255) - Título de la nota.
-- `content`: TEXT - El cuerpo de la nota (soporta Markdown).
-- `language_id`: UUID (Foreign Key) -> `languages.id`.
-- `category_id`: UUID (Foreign Key) -> `categories.id`.
-- `user_id`: VARCHAR(255) - ID proporcionado por Clerk para vincular la nota al usuario.
+- `code`: TEXT - El código generado por el usuario.
+- `description`: TEXT - Descripción de lo que hace el código.
+- `explanation`: TEXT - Explicación detallada o contexto.
+- `solution`: TEXT - La solución o mejora aplicada.
+- `language`: VARCHAR(100) - Lenguaje de programación.
+- `tags`: JSONB/TEXT[] - Etiquetas de la nota.
+- `user_id`: VARCHAR(255) - ID de Clerk para vincular la nota al usuario.
 - `created_at`: TIMESTAMP
 - `updated_at`: TIMESTAMP
 
