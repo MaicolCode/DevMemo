@@ -32,14 +32,36 @@ Para mantener la consistencia, usa el siguiente formato para nuevas entradas:
 ---
 
 ## 🐛 Bugs Solucionados (Histórico)
-*Lista rápida de errores críticos corregidos.*
-
-1.  (Ejemplo) Error de hidratación en `Layout.tsx` - Corregido el 2026-02-04.
+*Sin errores o bugs encontrados*
 
 ---
 
 ## 💡 Ideas / Mejoras Pendientes (Backlog)
 *Cosas que queremos hacer pero aún no empezamos.*
 
-- [ ] Optimizar el rendimiento de las imágenes con Next/Image.
-- [ ] Implementar animaciones de transición entre páginas.
+- [ ] Mejorar la tabla de notas debido a que falta una sección para guardar las notas de código
+- [x] Hacer uso de server actions de NextJS para las consultas a la base de datos e interacción con los datos que se registraran en Supabase.
+- [ ] Crear las rutas para la creación de notas, actualización y eliminación de notas.
+- [x] Crear las rutas para la creación de los tags, actualización y eliminación de tags.
+- [ ] Crear las rutas para la creación de las categorías, actualización y eliminación de categorías.
+
+### 2026-02-06 - Refactorización del formulario para la creación de los tags
+- **Tipo**: `Refactor`
+- **Descripción**: Se refactoriza la forma de crear los tags dentro del formulario de creación de notas. Se hace uso de server actions para que next js se encargue de hacer las peticiones a la base de datos.
+- **Antes**: El formulario unicamente contaba con un input en el cual se ingresaba un string con los tags separados por comas.
+- **Después**: Se implementa un input de tipo `text` que permite ingresar el nombre del tag y un botón para agregarlo a la lista de tags.
+- **Notas**: Se elimino el anterior input de tags y se implemento un componente mejorado en el cual el usuario podra ver los tags creados y eliminarlos si es necesario.
+
+
+---
+
+## 🐛 Bugs Solucionados (Histórico)
+*Sin errores o bugs encontrados*
+
+---
+
+## 💡 Ideas / Mejoras Pendientes (Backlog)
+*Cosas que queremos hacer pero aún no empezamos.*
+
+- [ ] Guardar una nota con las etiquetas creadas.
+- [ ] Crear la acción correspondiente para el almacenamiento de la nota junto con las etiquetas.
