@@ -65,3 +65,31 @@ Para mantener la consistencia, usa el siguiente formato para nuevas entradas:
 
 - [ ] Guardar una nota con las etiquetas creadas.
 - [ ] Crear la acción correspondiente para el almacenamiento de la nota junto con las etiquetas.
+
+
+### 2026-02-10 - Refactorización del formulario, se agrega categorías para las notas.
+
+## Actividades echas
+- Uso de zustand para manejar un estado global de las categorías.
+- Uso de server actions para hacer las peticiones a la base de datos, se crea una funcion para obtener las categorías.
+- Aplicación de la función creada en el server actions en el componente de creación de notas.
+
+## Recomendaciones a tomar en cuenta
+- Preguntando a la AI menciona que unicamente es bueno hacer uso de zustand para funciones especificas del componente.
+ - No es recomendado hacerlo uso para manejar peticiones o consultas a la base de datos, esto debido a que no estariamos aprovechando las ventajas de nextjs.
+- **Recomendación de la AI**: Hacer uso de tanstack query para manejar las peticiones a la base de datos.
+    - Hacer uso de server actions para el manejo de peticiones a la base de datos.
+- Las peticiones que se realicen a una API siempre deben de ir en un useEffect.
+
+
+## Consideraciones finales
+- Aprender a usar tanstack query y validar su funcionamiento con Next JS.
+- Investigar buenas practicas para el manejo de peticiones a la base de datos con Next JS.
+- Manejo de componentes por parte del servidor y el cliente.
+
+## Por hacer
+- [ ] Hacer uso de tanstack query para manejar las peticiones a la base de datos.
+- [ ] Hacer uso de buenas practicas para aliviar la acumulación de código.
+
+## Glosary 
+- Performance
