@@ -91,5 +91,27 @@ Para mantener la consistencia, usa el siguiente formato para nuevas entradas:
 - [ ] Hacer uso de tanstack query para manejar las peticiones a la base de datos.
 - [ ] Hacer uso de buenas practicas para aliviar la acumulación de código.
 
+---
+
+### 2026-02-11 - Implementación de Lenguajes y Optimización de Formulario
+- **Tipo**: `Feature` / `Refactor`
+- **Descripción**: Se implementó la carga dinámica de lenguajes de programación desde Supabase y se optimizó el formulario de creación basado en las recomendaciones previas.
+- **Antes**: 
+    - Los lenguajes estaban en una constante local estática.
+    - El formulario tenía errores de nombrado en los selects (select de categorías usaba el name de lenguajes).
+    - Las peticiones de datos estaban separadas.
+- **Después**: 
+    - Se creó la Server Action `getLanguages` en `src/lib/actions.ts`.
+    - Se centralizó la carga de datos en un solo `useEffect` con la función `fetchDataList` en `CreateNotePage`.
+    - Se corrigieron los atributos `name`, `id` y `label` en los componentes `select` del formulario para evitar conflictos de datos.
+- **Notas**: Se mejoró la legibilidad del código al agrupar las peticiones iniciales y se aseguró que el `language_slug` y `category_slug` se capturen correctamente en el estado del formulario.
+
+## 💡 Ideas / Mejoras Pendientes (Backlog)
+- [ ] Implementar un componente controlado para los Tags (uso de `useState` en lugar de manipulación directa del DOM).
+- [ ] Explorar `useOptimistic` de Next.js para una UI más fluida al crear tags.
+- [ ] Validar la integración completa con TanStack Query para el manejo de caché en las listas de categorías y lenguajes.
+
 ## Glosary 
 - Performance
+- Controlled Components
+- Server Actions
