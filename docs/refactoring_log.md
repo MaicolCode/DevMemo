@@ -112,6 +112,31 @@ Para mantener la consistencia, usa el siguiente formato para nuevas entradas:
 - [ ] Validar la integración completa con TanStack Query para el manejo de caché en las listas de categorías y lenguajes.
 
 ## Glosary 
-- Performance
 - Controlled Components
 - Server Actions
+
+---
+
+### 2026-02-13 - Revisión de Server Actions y Mejora de Seguridad
+- **Tipo**: `Refactor` / `Docs`
+- **Descripción**: Se realizó una revisión técnica de las Server Actions actuales, comparándolas con el enfoque tradicional de Route Handlers (API). Se identificaron mejoras críticas de seguridad y limpieza de código.
+- **Antes**: 
+    - Las acciones enviaban datos a una API externa (Vercel API) de forma redundante mediante `fetch`.
+    - Se pasaba el `userId` como parámetro desde el cliente, lo cual es un riesgo de seguridad.
+    - Existían inconsistencias entre las interfaces de TypeScript (`FormData`) y la lógica de las acciones (campo `tags` faltante).
+- **Después**: 
+    - Se estableció el plan para eliminar los `fetch` redundantes y operar directamente con Supabase dentro de las Server Actions.
+    - Se recomendó usar `auth()` de Clerk internamente en cada acción para validar la identidad del usuario en el servidor.
+    - Plan de corrección de tipos en `src/types/index.d.ts` para sincronizar `FormData` con los campos reales de las notas.
+- **Notas**: Se discutió la importancia de mantener la carpeta `src/app` limpia de componentes visuales, sugiriendo mover `src/app/ui` a `src/components` para seguir las mejores prácticas de Next.js.
+
+## 💡 Ideas / Mejoras Pendientes (Backlog)
+- [ ] Eliminar peticiones `fetch` manuales en `src/lib/actions.ts` y sustituirlas por llamadas directas a Supabase.
+- [ ] Refactorizar las acciones para usar `auth()` internamente y eliminar el parámetro `user` que viene del cliente.
+- [ ] Sincronizar la interfaz `FormData` con los campos `tags`, `code`, etc., en `src/types/index.d.ts`.
+- [ ] Mover la carpeta `src/app/ui` a `src/components` para una mejor arquitectura.
+
+## Glosary (Nuevos conceptos)
+- Server Actions vs Route Handlers
+- Atomicidad en Base de Datos (Relaciones Note-Tags)
+- Type Safety (Sincronización de Interfaces)
